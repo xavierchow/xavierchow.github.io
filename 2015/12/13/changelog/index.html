@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="git," />
 
 
 
@@ -53,16 +53,16 @@
 
 
 
-<meta name="description" content="It’s time to make a changelogWhat’s changelog and why?Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.Us">
+<meta name="description" content="What’s changelog and why use it?Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.Usually it containes rec">
 <meta property="og:type" content="article">
-<meta property="og:title" content="changelog">
+<meta property="og:title" content="It's time to make a changelog">
 <meta property="og:url" content="http://yoursite.com/2015/12/13/changelog/index.html">
 <meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
-<meta property="og:description" content="It’s time to make a changelogWhat’s changelog and why?Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.Us">
-<meta property="og:updated_time" content="2015-12-13T14:01:33.000Z">
+<meta property="og:description" content="What’s changelog and why use it?Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.Usually it containes rec">
+<meta property="og:updated_time" content="2015-12-13T14:12:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="changelog">
-<meta name="twitter:description" content="It’s time to make a changelogWhat’s changelog and why?Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.Us">
+<meta name="twitter:title" content="It's time to make a changelog">
+<meta name="twitter:description" content="What’s changelog and why use it?Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.Usually it containes rec">
 
 
 
@@ -74,7 +74,7 @@
   };
 </script>
 
-  <title> changelog | A JOURNEY OF A SOFTWARE CRAFTMAN </title>
+  <title> It's time to make a changelog | A JOURNEY OF A SOFTWARE CRAFTMAN </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -194,7 +194,7 @@
             
             
               
-                changelog
+                It's time to make a changelog
               
             
           </h1>
@@ -234,19 +234,25 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="It_u2019s_time_to_make_a_changelog"><a href="#It_u2019s_time_to_make_a_changelog" class="headerlink" title="It’s time to make a changelog"></a>It’s time to make a changelog</h1><h2 id="What_u2019s_changelog_and_why_3F"><a href="#What_u2019s_changelog_and_why_3F" class="headerlink" title="What’s changelog and why?"></a>What’s changelog and why?</h2><p>Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.<br>Usually it containes records as fix bugs, features, deprecated or something else. Normally it’s named with <code>CHANGELOG.md</code>, <code>History.md</code> etc.<br>Here is a pretty well post with comprehensive description for <strong>changelog</strong>. <a href="http://keepachangelog.com/" target="_blank" rel="external">http://keepachangelog.com/</a></p>
+        <span itemprop="articleBody"><h2 id="What_u2019s_changelog_and_why_use_it_3F"><a href="#What_u2019s_changelog_and_why_use_it_3F" class="headerlink" title="What’s changelog and why use it?"></a>What’s changelog and why use it?</h2><p>Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.<br>Usually it containes records as fix bugs, features, deprecated or something else. Normally it’s named with <code>CHANGELOG.md</code>, <code>History.md</code> etc. although the best convension I think is <code>CHANGELOG.md</code>.<br>Here is a pretty well post with comprehensive description for <strong>changelog</strong>. <a href="http://keepachangelog.com/" target="_blank" rel="external">http://keepachangelog.com/</a> and from there you can also find why use changelog.<br><a id="more"></a>  </p>
 <h2 id="How_3F"><a href="#How_3F" class="headerlink" title="How?"></a>How?</h2><p>There are serveral approaches for creating changelog.</p>
-<h3 id="Manually"><a href="#Manually" class="headerlink" title="Manually"></a>Manually</h3><p>Absolutelly this way your changelog will be most valuable as long as you care it. The cons is it costs some extra effort. For me, as I’m a lazzy developer,<br>I don’t like this way.</p>
-<h3 id="git_changelog"><a href="#git_changelog" class="headerlink" title="git changelog"></a>git changelog</h3><p>This is a command in <a href="https://github.com/tj/git-extras/blob/master/Commands.md#git-changelog" target="_blank" rel="external">git-extra</a>. It dumps the commits into the changelog with a tag name<br>and is very easy to use. However, just wrapping development commits into a changelog also makes it meanningless because most of time it ends up with<br>trival information such as <code>fix typo</code>. </p>
+<h3 id="Manually"><a href="#Manually" class="headerlink" title="Manually"></a>Manually</h3><p>Absolutelly in this way your changelog will be most valuable as long as you care it. The cons is it costs some extra effort. For me, as I’m a lazy developer, I don’t like this way.</p>
+<h3 id="git_changelog"><a href="#git_changelog" class="headerlink" title="git changelog"></a>git changelog</h3><p>This is a command in <a href="https://github.com/tj/git-extras/blob/master/Commands.md#git-changelog" target="_blank" rel="external">git-extra</a>. It dumps the commits into the changelog with a tag name and is very easy to use. However, just wrapping development commits into a changelog also makes it meanningless because most of time it ends up with trival information such as <code>fix typo</code>. </p>
 <blockquote><p>As is the difference between good comments and the code itself, so is the difference between a change log and the commit log: one describes the why, the other the how.</p>
 <footer><strong>http://keepachangelog.com/</strong></footer></blockquote>
 <h3 id="github-changelog-generator"><a href="#github-changelog-generator" class="headerlink" title="github-changelog-generator"></a>github-changelog-generator</h3><p>If your project is highly relied on github features, (github-changelog-generator)[] is a good choice. It automatically collects the issues, pull requests, tags and labels<br>into the changelog. The cons is that don’t forget to make issues for you notable changes, bug fix and also have to label them, actually I don’t think it’s a cons because<br>thosse activities mentioned above are after all the best practises you should adhere to, right?</p>
-<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>No matter which approache you use, the important point is that you care about changelog and take care of it. Will have prifited from it.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>No matter which approache you use, the important point is that you care about changelog and take care of it. You will have prifited from it.</p>
 </span>
       
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag">#git</a>
+          
+        </div>
       
 
       
@@ -394,7 +400,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#It_u2019s_time_to_make_a_changelog"><span class="nav-number">1.</span> <span class="nav-text">It’s time to make a changelog</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#What_u2019s_changelog_and_why_3F"><span class="nav-number">1.1.</span> <span class="nav-text">What’s changelog and why?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How_3F"><span class="nav-number">1.2.</span> <span class="nav-text">How?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Manually"><span class="nav-number">1.2.1.</span> <span class="nav-text">Manually</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git_changelog"><span class="nav-number">1.2.2.</span> <span class="nav-text">git changelog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github-changelog-generator"><span class="nav-number">1.2.3.</span> <span class="nav-text">github-changelog-generator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.3.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What_u2019s_changelog_and_why_use_it_3F"><span class="nav-number">1.</span> <span class="nav-text">What’s changelog and why use it?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How_3F"><span class="nav-number">2.</span> <span class="nav-text">How?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Manually"><span class="nav-number">2.1.</span> <span class="nav-text">Manually</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git_changelog"><span class="nav-number">2.2.</span> <span class="nav-text">git changelog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github-changelog-generator"><span class="nav-number">2.3.</span> <span class="nav-text">github-changelog-generator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -455,7 +461,7 @@
     <script type="text/javascript">
       var disqus_shortname = 'xavierblog';
       var disqus_identifier = '2015/12/13/changelog/';
-      var disqus_title = 'changelog';
+      var disqus_title = 'It's time to make a changelog';
       var disqus_url = 'http://yoursite.com/2015/12/13/changelog/';
 
       function run_disqus_script(disqus_script){
