@@ -1,0 +1,695 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="git," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="A JOURNEY OF A SOFTWARE CRAFTMAN" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="PrefaceNowadays lots of teams use git as the VCS, one of most power feature of git is branching, so it’s not uncommon that we need to frequently incorporate feasures into master or vise versa. As you">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Merge vs Rebase">
+<meta property="og:url" content="http://yoursite.com/2015/11/27/merge-vs-rebase/index.html">
+<meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
+<meta property="og:description" content="PrefaceNowadays lots of teams use git as the VCS, one of most power feature of git is branching, so it’s not uncommon that we need to frequently incorporate feasures into master or vise versa. As you">
+<meta property="og:updated_time" content="2015-12-13T13:27:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Merge vs Rebase">
+<meta name="twitter:description" content="PrefaceNowadays lots of teams use git as the VCS, one of most power feature of git is branching, so it’s not uncommon that we need to frequently incorporate feasures into master or vise versa. As you">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Merge vs Rebase | A JOURNEY OF A SOFTWARE CRAFTMAN </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">A JOURNEY OF A SOFTWARE CRAFTMAN</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Coding and Fun</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Merge vs Rebase
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            Posted on
+            <time itemprop="dateCreated" datetime="2015-11-27T23:55:16+08:00" content="2015-11-27">
+              2015-11-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/11/27/merge-vs-rebase/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/27/merge-vs-rebase/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p>Nowadays lots of teams use git as the VCS, one of most power feature of git is branching, so it’s not uncommon that we need to frequently incorporate feasures into master or vise versa. As you know, there are two approches <code>merge</code> and <code>rebase</code>.<br>Then you may be wondering shall we use <code>git merge</code> or <code>git rebase</code>? The debates between these two is a bit controvertial and also there is holy-wars likes <code>vim vs emacs</code> or <code>Tabs vs Spaces</code> between them, here I have no interest to join the debate, which means I am not talking which one is better, but in a certain scenario whichone is more suitable.<br><a id="more"></a></p>
+<h1 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h1><h2 id="git_merge"><a href="#git_merge" class="headerlink" title="git merge"></a>git merge</h2><p>Merge brings the commits in one branch which are not in the other(current) branch into the current branch with a <strong>merge</strong> commit.<br><figure class="highlight livescript"><table><tr><td class="code"><pre><span class="line">A<span class="function"> -&gt;</span> B<span class="function"> -&gt;</span> C (master)</span><br><span class="line">      <span class="string">\</span></span><br><span class="line">       D<span class="function"> -&gt;</span> E (feature)</span><br></pre></td></tr></table></figure></p>
+<p>Base upon the commit trees above, <code>git merge master</code> on feature branch leads to:<br><figure class="highlight livescript"><table><tr><td class="code"><pre><span class="line">A<span class="function"> -&gt;</span> B<span class="function">  -&gt;</span>   C    (master)</span><br><span class="line">      <span class="string">\</span>        <span class="string">\</span></span><br><span class="line">       D<span class="function"> -&gt;</span> E<span class="function"> -&gt;</span> F(feature)</span><br></pre></td></tr></table></figure></p>
+<p>The commit <code>F</code> is a merge commit with two parents (Note the <code>Merge:</code> line below) something likes<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">commit 6ff74286c4573adf2e330d59ee1aaa8841f756a9&#10;Merge: 1df0415 70e1786&#10;Author: xavierzhou &#60;xiayezhou#googlemail.com&#62;&#10;Date:   Sun Nov 22 23:25:37 2015 +0800&#10;&#10;    Merge branch &#39;feature&#39;</span><br></pre></td></tr></table></figure></p>
+<h2 id="git_rebase"><a href="#git_rebase" class="headerlink" title="git rebase"></a>git rebase</h2><p>Rebase also brings the commits in one branch which are not in the other(upstream) branch into the upstream branch with a <strong>transplant</strong> way.<br><figure class="highlight livescript"><table><tr><td class="code"><pre><span class="line">A<span class="function"> -&gt;</span> B<span class="function"> -&gt;</span> C (master)</span><br><span class="line">      <span class="string">\</span></span><br><span class="line">       D<span class="function"> -&gt;</span> E (feature)</span><br></pre></td></tr></table></figure></p>
+<p>Base upon the commit trees above, <code>git rebase master</code> at feature leads to:<br><figure class="highlight livescript"><table><tr><td class="code"><pre><span class="line">A<span class="function"> -&gt;</span> B<span class="function"> -&gt;</span> C (master)</span><br><span class="line">           <span class="string">\</span>      </span><br><span class="line">            D<span class="function"> -&gt;</span> E (feature)</span><br></pre></td></tr></table></figure></p>
+<p>Here you can find the hisotry of feature branch is changed.(from <code>A-&gt;B-&gt;D-&gt;E</code> to <code>A-&gt;B-&gt;C-&gt;D-&gt;E</code>), keep this in mind, it’s very important!</p>
+<h1 id="Usage_Scenario"><a href="#Usage_Scenario" class="headerlink" title="Usage Scenario"></a>Usage Scenario</h1><h2 id="Working_on_master_and_wanna_bring_other_branch_back"><a href="#Working_on_master_and_wanna_bring_other_branch_back" class="headerlink" title="Working on master and wanna bring other branch back"></a>Working on master and wanna bring other branch back</h2><ul>
+<li>Best practise:<br>Always use merge please! i.e <code>git checkout master &amp;&amp; git merge feature</code>.</li>
+<li>Explanation:<br>You still remember the <code>rebase</code> will change the history of branch? Altering the master branch history will makes other collabrator confuse and stuck.</li>
+</ul>
+<h2 id="Sitting_in_a_feature_branch_and_wanna_take_in_the_changeset_happened_in_master"><a href="#Sitting_in_a_feature_branch_and_wanna_take_in_the_changeset_happened_in_master" class="headerlink" title="Sitting in  a feature branch and wanna take in the changeset happened in master"></a>Sitting in  a feature branch and wanna take in the changeset happened in master</h2><ul>
+<li>Best practise:<br>Both <code>merge</code> and <code>rebase</code> are appropriate. i.e <code>git merge master</code> or <code>git rebase master</code>.</li>
+<li>Explanation:<br>If you prefer linear history and clean log for this feature, you should use <code>rebase</code>, if you prefer to keep the historical context then use <code>merge</code>.<br>N.B.<br>If you have pushed the branch to remote or as a Pull Request, make sure nobody will fetch your branch if you used <code>rebase</code> since it changes the history.</li>
+</ul>
+<h2 id="Woking_on_a_branch_which_hasn_u2019t_been_published_28push_29_and_wanna_clean_up"><a href="#Woking_on_a_branch_which_hasn_u2019t_been_published_28push_29_and_wanna_clean_up" class="headerlink" title="Woking on a branch which hasn’t been published(push) and wanna clean up"></a>Woking on a branch which hasn’t been published(push) and wanna clean up</h2><ul>
+<li>Best practise:<br><code>git rebase -i</code> is what you need.</li>
+<li>Explanation:<br>It’s not rare that you finished some works with a commit, and realized <code>Damn, forgot to add some file!</code> or <code>Sh*t, another typo here</code> things. Then you makes more commits with<br>those fixs and your <code>git log</code> looks rather ugly as follows, <figure class="highlight"><table><tr><td class="code"><pre><span class="line">121ca50 Fix another typo&#10;b253d57 Fix typo&#10;60bfba2 Add forgot config files&#10;ae6058c Implement feature</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>You can use <code>git rebase -i HEAD~4</code> to clean up history, which brings the default editor for git, and you now can <code>reword</code>, <code>squash</code>, <code>fixup</code> or even just remove some commits.</p>
+<h2 id="A_pull_request_was_reviewed_or_approved_and_about_to_be_merged_back_to_master"><a href="#A_pull_request_was_reviewed_or_approved_and_about_to_be_merged_back_to_master" class="headerlink" title="A pull request was reviewed or approved and about to be merged back to master."></a>A pull request was reviewed or approved and about to be merged back to master.</h2><ul>
+<li>Best practise:<br>It’s a good timing to use <code>rebase</code> to clean up if you donn’t want to keep the review/feedback changes in the pull request.</li>
+<li>Explanation:<br>Althought in this case the pull request is considered as a published one, since it will immediately be merged back and removed,<br>no one will fetch and care it soon, it’s safe to be <code>rebase</code>ed.</li>
+</ul>
+<h1 id="Golden_Rule_for_rebase"><a href="#Golden_Rule_for_rebase" class="headerlink" title="Golden Rule for rebase"></a>Golden Rule for rebase</h1><p>Remember <code>rebase</code> changes the history of branch, <strong>NEVER</strong> do it at the branch which may be fetched by other collabrators who plans to continue works upon it.</p>
+<h1 id="Reference_uFF1A"><a href="#Reference_uFF1A" class="headerlink" title="Reference："></a>Reference：</h1><p><a href="http://stackoverflow.com/questions/804115/when-do-you-use-git-rebase-instead-of-git-merge" target="_blank" rel="external">http://stackoverflow.com/questions/804115/when-do-you-use-git-rebase-instead-of-git-merge</a><br><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview" target="_blank" rel="external">https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview</a><br><a href="https://www.atlassian.com/git/articles/git-team-workflows-merge-or-rebase/" target="_blank" rel="external">https://www.atlassian.com/git/articles/git-team-workflows-merge-or-rebase/</a> </p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag">#git</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/23/farewell-fx/" rel="next" title="farewell fujixerox">
+                <i class="fa fa-chevron-left"></i> farewell fujixerox
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/13/changelog/" rel="prev" title="changelog">
+                changelog <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table Of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.png" alt="Xavier Zhou" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Xavier Zhou</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description"></p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">categories</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">tags</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/xavierchow" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Preface"><span class="nav-number">1.</span> <span class="nav-text">Preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Concept"><span class="nav-number">2.</span> <span class="nav-text">Concept</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#git_merge"><span class="nav-number">2.1.</span> <span class="nav-text">git merge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git_rebase"><span class="nav-number">2.2.</span> <span class="nav-text">git rebase</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Usage_Scenario"><span class="nav-number">3.</span> <span class="nav-text">Usage Scenario</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Working_on_master_and_wanna_bring_other_branch_back"><span class="nav-number">3.1.</span> <span class="nav-text">Working on master and wanna bring other branch back</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sitting_in_a_feature_branch_and_wanna_take_in_the_changeset_happened_in_master"><span class="nav-number">3.2.</span> <span class="nav-text">Sitting in  a feature branch and wanna take in the changeset happened in master</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Woking_on_a_branch_which_hasn_u2019t_been_published_28push_29_and_wanna_clean_up"><span class="nav-number">3.3.</span> <span class="nav-text">Woking on a branch which hasn’t been published(push) and wanna clean up</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A_pull_request_was_reviewed_or_approved_and_about_to_be_merged_back_to_master"><span class="nav-number">3.4.</span> <span class="nav-text">A pull request was reviewed or approved and about to be merged back to master.</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Golden_Rule_for_rebase"><span class="nav-number">4.</span> <span class="nav-text">Golden Rule for rebase</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference_uFF1A"><span class="nav-number">5.</span> <span class="nav-text">Reference：</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xavier Zhou</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+    
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'xavierblog';
+      var disqus_identifier = '2015/11/27/merge-vs-rebase/';
+      var disqus_title = 'Merge vs Rebase';
+      var disqus_url = 'http://yoursite.com/2015/11/27/merge-vs-rebase/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
