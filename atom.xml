@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Coding and Fun]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-12-13T14:12:22.000Z</updated>
+  <updated>2015-12-15T15:25:35.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,48 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[js_coercion]]></title>
+    <link href="http://yoursite.com/2015/12/15/js-coercion/"/>
+    <id>http://yoursite.com/2015/12/15/js-coercion/</id>
+    <published>2015-12-15T15:25:35.000Z</published>
+    <updated>2015-12-15T15:25:35.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="Is_empty_array_in_JavaScript_truthy_or_falsy_3F"><a href="#Is_empty_array_in_JavaScript_truthy_or_falsy_3F" class="headerlink" title="Is empty array in JavaScript truthy or falsy?"></a>Is empty array in JavaScript truthy or falsy?</h1><p>Today, one of my friends argued with me about the empty array <code>[]</code>, he think it’s falsy but in my experience I persist it should be truthy.<br>So, I demo it as follows:<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
+<p>Or you can also use double logical NOT to cast it to boolean, it’s the same.<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(!!a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
+<p>Looking the the evidence sentence shown in the screen, I think the argument is over till he shows me the following code,<br><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">console.<span class="command">log</span>([] == <span class="constant">false</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="Guess_what_3F"><a href="#Guess_what_3F" class="headerlink" title="Guess what?"></a>Guess what?</h2><p>The result is <strong>true</strong>. Woooooot? Well, I know there must be something wrong, escpecially the suspicous loose equality operation. I have to figure it out why it has such odd behaviour.</p>
+<h2 id="Type_Coertion"><a href="#Type_Coertion" class="headerlink" title="Type Coertion"></a>Type Coertion</h2><p>There are both awesome articles about the equality comparison algorithm in JavaScript world.</p>
+<ul>
+<li><a href="http://bclary.com/2004/11/07/#a-11.9.3" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-11.9.3</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness</a></li>
+</ul>
+<p><em>table from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness</a></em></p>
+<p>The key point is applying <code>ToPrimitive([])</code> and <code>ToNumber(false)</code>, then compare them.</p>
+<h3 id="What_u2019s_ToPrimitive_3F"><a href="#What_u2019s_ToPrimitive_3F" class="headerlink" title="What’s ToPrimitive?"></a>What’s ToPrimitive?</h3><p>ToPrimitive is a internal operation which attempts to convert its object argument to a primitive value, by attempting to invoke varying sequences of <code>toString</code> and <code>valueOf</code> methods on the Object. The detail steps can be found here: <a href="http://bclary.com/2004/11/07/#a-9.1" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-9.1</a><br>So, firstly try <code>[].valueOf()</code> which returns itself, it’s not primitive, then try to call <code>[].toString</code>, for Array.toString, according MDN(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toString" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toString</a>), </p>
+<blockquote>
+<p>For Array objects, the toString method joins the array and returns one string containing each array element separated by commas. </p>
+</blockquote>
+<p>This means we get the empty string <code>&#39;&#39;</code>.</p>
+<h3 id="What_u2019s_the_ToNumber_3F"><a href="#What_u2019s_the_ToNumber_3F" class="headerlink" title="What’s the ToNumber?"></a>What’s the ToNumber?</h3><p>Basically apply the <code>+</code> operation on the target, for boolean, </p>
+<blockquote>
+<p> 1 if the argument is true. +0 if the argument is false.</p>
+</blockquote>
+<p>for other types refer to :<a href="http://bclary.com/2004/11/07/#a-9.3" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-9.3</a></p>
+<h2 id="Problem_now_is_simplified"><a href="#Problem_now_is_simplified" class="headerlink" title="Problem now is simplified"></a>Problem now is simplified</h2><p>Is <code>&#39;&#39; == 0</code> truthy or falsy? Again begin with applying <code>ToNumber</code> to emtpy string <code>&#39;&#39;</code>, the rules is complecated but for empty string it’s simple as follows,</p>
+<blockquote>
+<p>A StringNumericLiteral that is empty or contains only white space is converted to +0.</p>
+</blockquote>
+<p>So, <code>0 === 0</code>? Surely it’s true.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Do <strong>NOT</strong> use loose eqality operation, it’s complex and confusing even for experienced JavaScript developers. Although the only exception is checking with null and undefined because either is equal to itself. i.e <code>foo != null</code> is equivalent to <code>foo !== null</code> &amp;&amp; <code>foo !== undefined</code>. However, I don’t recommend this way for less typing leads more confusion, the reader may even doubt whether the author forgot a <code>=</code> or not.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="Is_empty_array_in_JavaScript_truthy_or_falsy_3F"><a href="#Is_empty_array_in_JavaScript_truthy_or_falsy_3F" class="headerlink" title]]>
+    </summary>
+    
+      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[It's time to make a changelog]]></title>
