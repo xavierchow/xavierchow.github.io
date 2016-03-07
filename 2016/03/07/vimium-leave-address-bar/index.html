@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="vim," />
+  <meta name="keywords" content="chrome,vim," />
 
 
 
@@ -53,16 +53,18 @@
 
 
 
-<meta name="description" content="背景自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读程序人生的技术专栏程序员效率指南, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过sippets….亡羊补牢吧。">
+<meta name="description" content="As a vimer, I have been using a plugin called Vimium in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vim-snippets">
-<meta property="og:url" content="http://yoursite.com/2015/09/14/vim-snippets/index.html">
+<meta property="og:title" content="How to leave focus from Chrome address bar without mouse">
+<meta property="og:url" content="http://yoursite.com/2016/03/07/vimium-leave-address-bar/index.html">
 <meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
-<meta property="og:description" content="背景自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读程序人生的技术专栏程序员效率指南, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过sippets….亡羊补牢吧。">
-<meta property="og:updated_time" content="2015-12-13T13:27:34.000Z">
+<meta property="og:description" content="As a vimer, I have been using a plugin called Vimium in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump">
+<meta property="og:image" content="http://yoursite.com/images/chrome-plugins.png">
+<meta property="og:image" content="http://yoursite.com/images/search-engine.png">
+<meta property="og:updated_time" content="2016-03-07T15:53:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vim-snippets">
-<meta name="twitter:description" content="背景自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读程序人生的技术专栏程序员效率指南, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过sippets….亡羊补牢吧。">
+<meta name="twitter:title" content="How to leave focus from Chrome address bar without mouse">
+<meta name="twitter:description" content="As a vimer, I have been using a plugin called Vimium in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump">
 
 
 
@@ -74,7 +76,7 @@
   };
 </script>
 
-  <title> vim-snippets | A JOURNEY OF A SOFTWARE CRAFTMAN </title>
+  <title> How to leave focus from Chrome address bar without mouse | A JOURNEY OF A SOFTWARE CRAFTMAN </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -194,7 +196,7 @@
             
             
               
-                vim-snippets
+                How to leave focus from Chrome address bar without mouse
               
             
           </h1>
@@ -203,8 +205,8 @@
         <div class="post-meta">
           <span class="post-time">
             Posted on
-            <time itemprop="dateCreated" datetime="2015-09-14T22:06:59+08:00" content="2015-09-14">
-              2015-09-14
+            <time itemprop="dateCreated" datetime="2016-03-07T23:45:05+08:00" content="2016-03-07">
+              2016-03-07
             </time>
           </span>
 
@@ -214,8 +216,8 @@
             
               <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/09/14/vim-snippets/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/09/14/vim-snippets/" itemprop="commentsCount"></span>
+              <a href="/2016/03/07/vimium-leave-address-bar/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/03/07/vimium-leave-address-bar/" itemprop="commentsCount"></span>
               </a>
             </span>
             
@@ -234,25 +236,26 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h1><p>自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读<em>程序人生</em>的技术专栏<a href="http://mp.weixin.qq.com/s?__biz=MzA3NDM0ODQwMw==&amp;mid=206041450&amp;idx=1&amp;sn=3982c8cc45d7c47f0fbc19fe8371490f&amp;scene=0#rd" target="_blank" rel="external">程序员效率指南</a>, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过sippets….亡羊补牢吧。<br><a id="more"></a></p>
-<h1 id="Snippets_Plugin_for_Vimer"><a href="#Snippets_Plugin_for_Vimer" class="headerlink" title="Snippets Plugin for Vimer"></a>Snippets Plugin for Vimer</h1><ol>
-<li><a href="https://github.com/SirVer/ultisnips" target="_blank" rel="external">SirVer/ultisnips</a></li>
-<li><a href="https://github.com/honza/vim-snippets" target="_blank" rel="external">honza/vim-snippets</a><br>ultisnips是snippets enginne，要配合honza/vim-snippets一起用。(画外音：“我知道，要两粒在一起吃才好”)</li>
+        <span itemprop="articleBody"><p>As a vimer, I have been using a plugin called <a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en" target="_blank" rel="external">Vimium</a> in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump link/history back etc, however there is one thing sometimes annoys me, the <strong>address bar</strong>.<br><a id="more"></a>  </p>
+<p>Although most of the time you can use <code>o</code> or <code>O</code> to open URL or history in current tab or new tab, <code>Ctrl-L</code> to highlight the address bar and modifying the URL is not a rare case.<br>Here comes the issue, when the address bar is highlighted(i.e in input mode), unless you click the <code>enter</code> to reload the whole page the vimium is not active, neither can you expect to press <code>esc</code> to back to the page.</p>
+<p>In such situation, to get focus back to the page, you have 3 choices:</p>
+<ol>
+<li>use mouse to click the page(html body), this is the most straightforward one but I don’t want to move my fingers from keyboard, so it passed.</li>
+<li>use tab, it can move focus to the next control in browser and eventually you can focus on html body and continue the vimium key shortcuts.<br>However, if you are a guy as me has lots of plugins installed, you have to tab multiple times to get the focus on page. It’s no ideal solution.<br><img src="/images/chrome-plugins.png" alt=""></li>
+<li>This one is a bit tricky but it works. <code>Cmd-F</code>(Or <code>Ctrl-F</code> at Windows) to trigger the search box, and input any character(the simplest one is <code>blank</code>) then <code>esc</code>, it brings you back to web page as well, but this solution has two cons:<ul>
+<li>It needs 3 key-strokes, not so concise.</li>
+<li>If you are in the middle of the page(by scrolling or whatever way), then the combination above will always bring you back to the top of page. Quite annoying, isn’t it?</li>
+</ul>
+</li>
 </ol>
-<h2 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h2><p>github上已经有的就不写了，如果你和我一样用的不是vundle, 而是pathogen的话，<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/.vim/bundle</span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/SirVer/ultisnips</span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/honza/vim-snippets</span><br></pre></td></tr></table></figure></p>
-<h2 id="u914D_u7F6E"><a href="#u914D_u7F6E" class="headerlink" title="配置"></a>配置</h2><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="string">" Trigger configuration. Do not use &lt;tab&gt; if you use https://github.com/Valloric/YouCompleteMe.</span><br><span class="line"></span><span class="keyword">let</span> <span class="variable">g:UltiSnipsExpandTrigger</span>=<span class="string">"&lt;tab&gt;"</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:UltiSnipsJumpForwardTrigger</span>=<span class="string">"&lt;c-j&gt;"</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:UltiSnipsJumpBackwardTrigger</span>=<span class="string">"&lt;c-k&gt;"</span></span><br><span class="line"></span><br><span class="line"><span class="string">" If you want :UltiSnipsEdit to split your window.</span><br><span class="line"></span><span class="keyword">let</span> <span class="variable">g:UltiSnipsEditSplit</span>=<span class="string">"vertical"</span></span><br></pre></td></tr></table></figure>
-<p><code>UltiSnipsExpandTrigger</code>较好理解，就是触发展开snippet的热键, <code>UltiSnipsJumpForwardTrigger</code>和<code>UltiSnipsJumpBackwardTrigger</code>是控制tabstop的热键，后面有详述。</p>
-<h2 id="u5982_u4F55_u81EA_u5B9A_u4E49"><a href="#u5982_u4F55_u81EA_u5B9A_u4E49" class="headerlink" title="如何自定义"></a>如何自定义</h2><p>我自己写JavaScript会比较多，根据<a href="https://github.com/honza/vim-snippets/tree/master/snippets/javascript，" target="_blank" rel="external">https://github.com/honza/vim-snippets/tree/master/snippets/javascript，</a><br>除了通用的<a href="https://github.com/honza/vim-snippets/blob/master/snippets/javascript/javascript.snippets" target="_blank" rel="external">JavaScript Snippets</a>之外，还有jquery, d3, requirejs, node专有的snippets, 基本够用，当然总有一天你会想自己定制snippet…</p>
-<h3 id="Snip_Search_Path"><a href="#Snip_Search_Path" class="headerlink" title="Snip Search Path"></a>Snip Search Path</h3><p>snippet目录必须是｀runtimepath`的子目录，可以在下面配置中自己修改。<br><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">g:UltiSnipsSnippetDirectories</span>=[<span class="string">"UltiSnips"</span>]</span><br></pre></td></tr></table></figure></p>
-<p>UltiSnips会根据以下策略去找snippet文件：<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">ft<span class="class">.snippets</span>, ft_*<span class="class">.snippets</span>, or ft<span class="comment">/*</span></span><br></pre></td></tr></table></figure></p>
-<p>其中<code>ft</code>是当前文档的filetype。</p>
-<h3 id="u8BED_u6CD5"><a href="#u8BED_u6CD5" class="headerlink" title="语法"></a>语法</h3><p>非常简单，<code>snippet</code>开始，<code>endsnippet</code>结束。定义格式：<code>snippet tab_trigger [ &quot;description&quot; [ options ] ]</code><br><figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">snippet <span class="keyword">if</span> <span class="string">"if ... then (if)"</span></span><br><span class="line"><span class="keyword">if</span> <span class="variable">$&#123;</span><span class="number">2</span><span class="symbol">:</span>[[ <span class="variable">$&#123;</span><span class="number">1</span><span class="symbol">:condition</span>&#125; ]]&#125;; <span class="keyword">then</span></span><br><span class="line">        <span class="variable">$&#123;</span><span class="number">0</span><span class="symbol">:</span><span class="comment">#statements&#125;</span></span><br><span class="line">fi</span><br><span class="line">endsnippet</span><br></pre></td></tr></table></figure></p>
-<p>就是说你输入<code>if</code>的话，<code>if...fi</code>整个block会被插入。</p>
-<h3 id="Visual_Placeholder"><a href="#Visual_Placeholder" class="headerlink" title="Visual Placeholder"></a>Visual Placeholder</h3><p>Snippets中特殊的placeholder: <code>${VISUAL}</code>， visual mode 中选中的内容会被替换进来。触发如下：<br>选中-&gt; <code>&lt;tab&gt;</code> -&gt; tag_trigger -&gt; <code>&lt;tab&gt;</code></p>
-<h3 id="Interpolation"><a href="#Interpolation" class="headerlink" title="Interpolation"></a>Interpolation</h3><p>snippets中可以使用shellcode, vimscript, python等，用    `(backtick)包起来就行。</p>
-<h3 id="Tabstop__u548C_Placeholder"><a href="#Tabstop__u548C_Placeholder" class="headerlink" title="Tabstop 和 Placeholder"></a>Tabstop 和 Placeholder</h3><p>这部分保证了固定结构的snippets中可以输入可变的部分，tabstop用来控制光标在几个变量间跳转。<br><figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">snippet letter</span><br><span class="line">Dear <span class="variable">$1</span>,</span><br><span class="line"><span class="variable">$0</span></span><br><span class="line">Yours sincerely,</span><br><span class="line"><span class="variable">$2</span></span><br><span class="line">endsnippet</span><br></pre></td></tr></table></figure></p>
-<p>输入<code>letter</code>后按<code>&lt;tab&gt;</code>, snippet会被插入，然后<code>&lt;c-j&gt;</code>,<code>&lt;c-k&gt;</code>就可以在<code>$1</code> <code>$2</code>之间跳转，注意<code>$0</code>是最后一个位置，到了<code>$0</code>以后就不能再跳转了，往回跳也不行。</p>
-<h2 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h2><p>请参考<a href="https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt" target="_blank" rel="external">https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt</a></p>
+<p>Thanks to the <a href="http://superuser.com/users/106061/reycharles" target="_blank" rel="external">@ReyCharles</a> ‘s answer <a href="http://superuser.com/questions/324266/google-chrome-mac-set-keyboard-focus-from-address-bar-back-to-page/324267#324267" target="_blank" rel="external">here</a>, got the Holy Grail as follows,</p>
+<ol>
+<li>In search engines setting, add a new one.</li>
+<li>Name the new engine with whatever you like, I named it as <code>leaveAddressBar</code>.</li>
+<li>A simple hot key for <code>Keyword</code>, as the illustration I used <code>u</code>.</li>
+<li>In <code>URL</code> field, input <code>javascript:</code>, this is the point which moves focus back to the page.<br><img src="/images/search-engine.png" alt=""></li>
+</ol>
+<p>Done, now feel free to fiddle the address bar without mouse!</p>
 </span>
       
     </div>
@@ -260,6 +263,8 @@
     <footer class="post-footer">
       
         <div class="post-tags">
+          
+            <a href="/tags/chrome/" rel="tag">#chrome</a>
           
             <a href="/tags/vim/" rel="tag">#vim</a>
           
@@ -270,17 +275,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/14/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2015/12/15/js-coercion/" rel="next" title="Is empty array in JavaScript truthy or falsy?">
+                <i class="fa fa-chevron-left"></i> Is empty array in JavaScript truthy or falsy?
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/10/23/farewell-fx/" rel="prev" title="farewell fujixerox">
-                farewell fujixerox <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -415,7 +416,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u80CC_u666F"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Snippets_Plugin_for_Vimer"><span class="nav-number">2.</span> <span class="nav-text">Snippets Plugin for Vimer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#u5B89_u88C5"><span class="nav-number">2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u914D_u7F6E"><span class="nav-number">2.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5982_u4F55_u81EA_u5B9A_u4E49"><span class="nav-number">2.3.</span> <span class="nav-text">如何自定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Snip_Search_Path"><span class="nav-number">2.3.1.</span> <span class="nav-text">Snip Search Path</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#u8BED_u6CD5"><span class="nav-number">2.3.2.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual_Placeholder"><span class="nav-number">2.3.3.</span> <span class="nav-text">Visual Placeholder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Interpolation"><span class="nav-number">2.3.4.</span> <span class="nav-text">Interpolation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tabstop__u548C_Placeholder"><span class="nav-number">2.3.5.</span> <span class="nav-text">Tabstop 和 Placeholder</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u5176_u4ED6"><span class="nav-number">2.4.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">This post does not have a Table Of Contents</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -475,9 +476,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'xavierblog';
-      var disqus_identifier = '2015/09/14/vim-snippets/';
-      var disqus_title = 'vim-snippets';
-      var disqus_url = 'http://yoursite.com/2015/09/14/vim-snippets/';
+      var disqus_identifier = '2016/03/07/vimium-leave-address-bar/';
+      var disqus_title = 'How to leave focus from Chrome address bar without mouse';
+      var disqus_url = 'http://yoursite.com/2016/03/07/vimium-leave-address-bar/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');

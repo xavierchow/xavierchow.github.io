@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Coding and Fun]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-12-15T15:40:13.000Z</updated>
+  <updated>2016-03-07T15:53:46.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[How to leave focus from Chrome address bar without mouse]]></title>
+    <link href="http://yoursite.com/2016/03/07/vimium-leave-address-bar/"/>
+    <id>http://yoursite.com/2016/03/07/vimium-leave-address-bar/</id>
+    <published>2016-03-07T15:45:05.000Z</published>
+    <updated>2016-03-07T15:53:46.000Z</updated>
+    <content type="html"><![CDATA[<p>As a vimer, I have been using a plugin called <a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en" target="_blank" rel="external">Vimium</a> in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump link/history back etc, however there is one thing sometimes annoys me, the <strong>address bar</strong>.<br><a id="more"></a>  </p>
+<p>Although most of the time you can use <code>o</code> or <code>O</code> to open URL or history in current tab or new tab, <code>Ctrl-L</code> to highlight the address bar and modifying the URL is not a rare case.<br>Here comes the issue, when the address bar is highlighted(i.e in input mode), unless you click the <code>enter</code> to reload the whole page the vimium is not active, neither can you expect to press <code>esc</code> to back to the page.</p>
+<p>In such situation, to get focus back to the page, you have 3 choices:</p>
+<ol>
+<li>use mouse to click the page(html body), this is the most straightforward one but I don’t want to move my fingers from keyboard, so it passed.</li>
+<li>use tab, it can move focus to the next control in browser and eventually you can focus on html body and continue the vimium key shortcuts.<br>However, if you are a guy as me has lots of plugins installed, you have to tab multiple times to get the focus on page. It’s no ideal solution.<br><img src="/images/chrome-plugins.png" alt=""></li>
+<li>This one is a bit tricky but it works. <code>Cmd-F</code>(Or <code>Ctrl-F</code> at Windows) to trigger the search box, and input any character(the simplest one is <code>blank</code>) then <code>esc</code>, it brings you back to web page as well, but this solution has two cons:<ul>
+<li>It needs 3 key-strokes, not so concise.</li>
+<li>If you are in the middle of the page(by scrolling or whatever way), then the combination above will always bring you back to the top of page. Quite annoying, isn’t it?</li>
+</ul>
+</li>
+</ol>
+<p>Thanks to the <a href="http://superuser.com/users/106061/reycharles" target="_blank" rel="external">@ReyCharles</a> ‘s answer <a href="http://superuser.com/questions/324266/google-chrome-mac-set-keyboard-focus-from-address-bar-back-to-page/324267#324267" target="_blank" rel="external">here</a>, got the Holy Grail as follows,</p>
+<ol>
+<li>In search engines setting, add a new one.</li>
+<li>Name the new engine with whatever you like, I named it as <code>leaveAddressBar</code>.</li>
+<li>A simple hot key for <code>Keyword</code>, as the illustration I used <code>u</code>.</li>
+<li>In <code>URL</code> field, input <code>javascript:</code>, this is the point which moves focus back to the page.<br><img src="/images/search-engine.png" alt=""></li>
+</ol>
+<p>Done, now feel free to fiddle the address bar without mouse!</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>As a vimer, I have been using a plugin called <a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en">Vimium</a> in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump link/history back etc, however there is one thing sometimes annoys me, the <strong>address bar</strong>.<br>]]>
+    
+    </summary>
+    
+      <category term="chrome" scheme="http://yoursite.com/tags/chrome/"/>
+    
+      <category term="vim" scheme="http://yoursite.com/tags/vim/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Is empty array in JavaScript truthy or falsy?]]></title>

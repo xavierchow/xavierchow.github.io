@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2016/03/07/vimium-leave-address-bar/</loc>
+    <lastmod>2016-03-07T15:53:46.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2015/12/15/js-coercion/</loc>
     <lastmod>2015-12-15T15:40:13.000Z</lastmod>
   </url>
