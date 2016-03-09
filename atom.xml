@@ -57,7 +57,7 @@
     <link href="http://yoursite.com/2015/12/15/js-coercion/"/>
     <id>http://yoursite.com/2015/12/15/js-coercion/</id>
     <published>2015-12-15T15:25:35.000Z</published>
-    <updated>2015-12-15T15:40:13.000Z</updated>
+    <updated>2016-03-09T15:19:24.000Z</updated>
     <content type="html"><![CDATA[<p>Today, one of my friends argued with me about the empty array <code>[]</code>, he think it’s falsy but in my experience I persist it should be truthy.<br><a id="more"></a><br>So, I demo it as follows:<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
 <p>Or you can also use double logical NOT to cast it to boolean, it’s the same.<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(!!a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
 <p>Looking the the evidence sentence shown in the screen, I think the argument is over till he shows me the following code,<br><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">console.<span class="command">log</span>([] == <span class="constant">false</span>);</span><br></pre></td></tr></table></figure></p>
@@ -78,7 +78,7 @@
 <p> 1 if the argument is true. +0 if the argument is false.</p>
 </blockquote>
 <p>for other types refer to :<a href="http://bclary.com/2004/11/07/#a-9.3" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-9.3</a></p>
-<h2 id="Problem_now_is_simplified"><a href="#Problem_now_is_simplified" class="headerlink" title="Problem now is simplified"></a>Problem now is simplified</h2><p>Is <code>&#39;&#39; == 0</code> truthy or falsy? Again begin with applying <code>ToNumber</code> to emtpy string <code>&#39;&#39;</code>, the rules is complecated <a href="http://bclary.com/2004/11/07/#a-9.3.1" target="_blank" rel="external">here</a> but for empty string it’s simple as follows,</p>
+<h2 id="Problem_now_is_simplified"><a href="#Problem_now_is_simplified" class="headerlink" title="Problem now is simplified"></a>Problem now is simplified</h2><p>Is <code>&#39;&#39; == 0</code> truthy or falsy? Again begin with applying <code>ToNumber</code> to emtpy string <code>&#39;&#39;</code>, the rules is complicated <a href="http://bclary.com/2004/11/07/#a-9.3.1" target="_blank" rel="external">here</a> but for empty string it’s simple as follows,</p>
 <blockquote>
 <p>A StringNumericLiteral that is empty or contains only white space is converted to +0.</p>
 </blockquote>
@@ -191,8 +191,8 @@
     <link href="http://yoursite.com/2015/09/14/vim-snippets/"/>
     <id>http://yoursite.com/2015/09/14/vim-snippets/</id>
     <published>2015-09-14T14:06:59.000Z</published>
-    <updated>2015-12-13T13:27:34.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h1><p>自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读<em>程序人生</em>的技术专栏<a href="http://mp.weixin.qq.com/s?__biz=MzA3NDM0ODQwMw==&amp;mid=206041450&amp;idx=1&amp;sn=3982c8cc45d7c47f0fbc19fe8371490f&amp;scene=0#rd" target="_blank" rel="external">程序员效率指南</a>, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过sippets….亡羊补牢吧。<br><a id="more"></a></p>
+    <updated>2016-03-09T15:20:23.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h1><p>自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读<em>程序人生</em>的技术专栏<a href="http://mp.weixin.qq.com/s?__biz=MzA3NDM0ODQwMw==&amp;mid=206041450&amp;idx=1&amp;sn=3982c8cc45d7c47f0fbc19fe8371490f&amp;scene=0#rd" target="_blank" rel="external">程序员效率指南</a>, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过snippets….亡羊补牢吧。<br><a id="more"></a></p>
 <h1 id="Snippets_Plugin_for_Vimer"><a href="#Snippets_Plugin_for_Vimer" class="headerlink" title="Snippets Plugin for Vimer"></a>Snippets Plugin for Vimer</h1><ol>
 <li><a href="https://github.com/SirVer/ultisnips" target="_blank" rel="external">SirVer/ultisnips</a></li>
 <li><a href="https://github.com/honza/vim-snippets" target="_blank" rel="external">honza/vim-snippets</a><br>ultisnips是snippets enginne，要配合honza/vim-snippets一起用。(画外音：“我知道，要两粒在一起吃才好”)</li>
@@ -213,7 +213,7 @@
 <h2 id="u5176_u4ED6"><a href="#u5176_u4ED6" class="headerlink" title="其他"></a>其他</h2><p>请参考<a href="https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt" target="_blank" rel="external">https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt</a></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h1><p>自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读<em>程序人生</em>的技术专栏<a href="http://mp.weixin.qq.com/s?__biz=MzA3NDM0ODQwMw==&amp;mid=206041450&amp;idx=1&amp;sn=3982c8cc45d7c47f0fbc19fe8371490f&amp;scene=0#rd">程序员效率指南</a>, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过sippets….亡羊补牢吧。<br>]]>
+    <![CDATA[<h1 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h1><p>自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读<em>程序人生</em>的技术专栏<a href="http://mp.weixin.qq.com/s?__biz=MzA3NDM0ODQwMw==&amp;mid=206041450&amp;idx=1&amp;sn=3982c8cc45d7c47f0fbc19fe8371490f&amp;scene=0#rd">程序员效率指南</a>, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过snippets….亡羊补牢吧。<br>]]>
     
     </summary>
     
