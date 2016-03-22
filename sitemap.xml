@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2015/09/14/hello-world/</loc>
+    <lastmod>2016-03-22T15:10:33.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2015/09/14/vim-snippets/</loc>
     <lastmod>2016-03-09T15:20:23.000Z</lastmod>
   </url>
@@ -13,17 +18,12 @@
   
   <url>
     <loc>http://yoursite.com/2016/03/07/vimium-leave-address-bar/</loc>
-    <lastmod>2016-03-07T15:53:20.000Z</lastmod>
+    <lastmod>2016-03-07T15:53:46.000Z</lastmod>
   </url>
   
   <url>
     <loc>http://yoursite.com/2015/12/13/changelog/</loc>
     <lastmod>2015-12-13T14:12:22.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/09/14/hello-world/</loc>
-    <lastmod>2015-12-13T13:58:25.000Z</lastmod>
   </url>
   
   <url>
