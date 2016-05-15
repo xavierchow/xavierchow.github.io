@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JavaScript," />
+  <meta name="keywords" content="javascript flow-control," />
 
 
 
@@ -53,17 +53,19 @@
 
 
 
-<meta name="description" content="Today, one of my friends argued with me about the empty array [], he think it’s falsy but in my experience I persist it should be truthy.">
+<meta name="description" content="大神tj的co已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。
+转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了how，而没有讲why，而这正是我所在意的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Is empty array in JavaScript truthy or falsy?">
-<meta property="og:url" content="http://yoursite.com/2015/12/15/js-coercion/index.html">
+<meta property="og:title" content="understand co">
+<meta property="og:url" content="http://yoursite.com/2016/05/15/understand-co/index.html">
 <meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
-<meta property="og:description" content="Today, one of my friends argued with me about the empty array [], he think it’s falsy but in my experience I persist it should be truthy.">
-<meta property="og:image" content="http://yoursite.com/images/js-coercion-table.png">
-<meta property="og:updated_time" content="2016-03-09T15:19:24.000Z">
+<meta property="og:description" content="大神tj的co已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。
+转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了how，而没有讲why，而这正是我所在意的">
+<meta property="og:updated_time" content="2016-05-15T07:29:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Is empty array in JavaScript truthy or falsy?">
-<meta name="twitter:description" content="Today, one of my friends argued with me about the empty array [], he think it’s falsy but in my experience I persist it should be truthy.">
+<meta name="twitter:title" content="understand co">
+<meta name="twitter:description" content="大神tj的co已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。
+转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了how，而没有讲why，而这正是我所在意的">
 
 
 
@@ -75,7 +77,7 @@
   };
 </script>
 
-  <title> Is empty array in JavaScript truthy or falsy? | A JOURNEY OF A SOFTWARE CRAFTMAN </title>
+  <title> understand co | A JOURNEY OF A SOFTWARE CRAFTMAN </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -195,7 +197,7 @@
             
             
               
-                Is empty array in JavaScript truthy or falsy?
+                understand co
               
             
           </h1>
@@ -204,8 +206,8 @@
         <div class="post-meta">
           <span class="post-time">
             Posted on
-            <time itemprop="dateCreated" datetime="2015-12-15T23:25:35+08:00" content="2015-12-15">
-              2015-12-15
+            <time itemprop="dateCreated" datetime="2016-05-15T15:26:05+08:00" content="2016-05-15">
+              2016-05-15
             </time>
           </span>
 
@@ -215,8 +217,8 @@
             
               <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/12/15/js-coercion/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/15/js-coercion/" itemprop="commentsCount"></span>
+              <a href="/2016/05/15/understand-co/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/05/15/understand-co/" itemprop="commentsCount"></span>
               </a>
             </span>
             
@@ -235,32 +237,15 @@
       
 
       
-        <span itemprop="articleBody"><p>Today, one of my friends argued with me about the empty array <code>[]</code>, he think it’s falsy but in my experience I persist it should be truthy.<br><a id="more"></a><br>So, I demo it as follows:<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
-<p>Or you can also use double logical NOT to cast it to boolean, it’s the same.<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(!!a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
-<p>Looking the the evidence sentence shown in the screen, I think the argument is over till he shows me the following code,<br><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">console.<span class="command">log</span>([] == <span class="constant">false</span>);</span><br></pre></td></tr></table></figure></p>
-<h2 id="Guess_what_3F"><a href="#Guess_what_3F" class="headerlink" title="Guess what?"></a>Guess what?</h2><p>The result is <strong>true</strong>. Woooooot? Well, I know there must be something wrong, escpecially the suspicous loose equality operation. I have to figure it out why it has such odd behaviour.</p>
-<h2 id="Type_Coertion"><a href="#Type_Coertion" class="headerlink" title="Type Coertion"></a>Type Coertion</h2><p>There are both awesome articles about the equality comparison algorithm in JavaScript world.</p>
-<ul>
-<li><a href="http://bclary.com/2004/11/07/#a-11.9.3" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-11.9.3</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness</a><br><img src="/images/js-coercion-table.png" alt=""><br>–<em>table from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness</a></em></li>
-</ul>
-<p>The key point is applying <code>ToPrimitive([])</code> and <code>ToNumber(false)</code>, then compare them.</p>
-<h3 id="What_u2019s_ToPrimitive_3F"><a href="#What_u2019s_ToPrimitive_3F" class="headerlink" title="What’s ToPrimitive?"></a>What’s ToPrimitive?</h3><p>ToPrimitive is a internal operation which attempts to convert its object argument to a primitive value, by attempting to invoke varying sequences of <code>toString</code> and <code>valueOf</code> methods on the Object. The detail steps can be found here: <a href="http://bclary.com/2004/11/07/#a-9.1" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-9.1</a><br>So, firstly try <code>[].valueOf()</code> which returns itself, it’s not primitive, then try to call <code>[].toString</code>, for <code>Array.toString</code>, according <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toString" target="_blank" rel="external">MDN</a>, </p>
-<blockquote>
-<p>For Array objects, the toString method joins the array and returns one string containing each array element separated by commas. </p>
-</blockquote>
-<p>This means we get the empty string <code>&#39;&#39;</code>.</p>
-<h3 id="What_u2019s_the_ToNumber_3F"><a href="#What_u2019s_the_ToNumber_3F" class="headerlink" title="What’s the ToNumber?"></a>What’s the ToNumber?</h3><p>Basically apply the <code>+</code> operation on the target, for boolean, </p>
-<blockquote>
-<p> 1 if the argument is true. +0 if the argument is false.</p>
-</blockquote>
-<p>for other types refer to :<a href="http://bclary.com/2004/11/07/#a-9.3" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-9.3</a></p>
-<h2 id="Problem_now_is_simplified"><a href="#Problem_now_is_simplified" class="headerlink" title="Problem now is simplified"></a>Problem now is simplified</h2><p>Is <code>&#39;&#39; == 0</code> truthy or falsy? Again begin with applying <code>ToNumber</code> to emtpy string <code>&#39;&#39;</code>, the rules is complicated <a href="http://bclary.com/2004/11/07/#a-9.3.1" target="_blank" rel="external">here</a> but for empty string it’s simple as follows,</p>
-<blockquote>
-<p>A StringNumericLiteral that is empty or contains only white space is converted to +0.</p>
-</blockquote>
-<p>So, <code>0 === 0</code>? Surely it’s true.</p>
-<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Do <strong>NOT</strong> use loose eqality operation, it’s complex and confusing even for experienced JavaScript developers. Although the only exception is checking with null and undefined because either is equal to itself. i.e <code>foo != null</code> is equivalent to <code>foo !== null</code> &amp;&amp; <code>foo !== undefined</code>. However, I don’t recommend this way for less typing leads more confusion, the reader may even doubt whether the author forgot a <code>=</code> or not.</p>
+        <span itemprop="articleBody"><p>大神<a href="https://github.com/tj" target="_blank" rel="external">tj</a>的<a href="https://github.com/tj/co" target="_blank" rel="external">co</a>已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。</p>
+<p>转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了<strong>how</strong>，而没有讲<strong>why</strong>，而这正是我所在意的，我为什么要用这个模块，有什么好处？<br><a id="more"></a>  </p>
+<p>于是在<a href="https://medium.com/" target="_blank" rel="external">Medium</a>上翻到了tj的这篇博客<a href="https://medium.com/@tjholowaychuk/callbacks-vs-coroutines-174f1fe66127#.9fw59pduu" target="_blank" rel="external">Callbacks vs Coroutines</a>，<br>看完之后不禁拍案，原来动机如此，co想解决的事原来在我学习generator的时候我也尝试过！</p>
+<p>短话长说（反了？），我们知道es6 generator function可以重复进入，程序运行到yield语句时，控制权转移到function外部，调next的时候，控制权回来。然而generator内的代码看上去是同步顺序执行的，<br>这不正是一个能完美的将异步调用转成类似同步执行的特性吗？（没错，对于天生异步的node.js，人们一直致力于将它拧巴地或优雅地转换成人类习惯的同步方式中)</p>
+<p>上代码：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> result = <span class="keyword">yield</span> myrequest(<span class="string">"http://some.url"</span>);</span><br><span class="line">  <span class="keyword">var</span> res = <span class="built_in">JSON</span>.parse(result);</span><br><span class="line">  <span class="built_in">console</span>.log(res.msg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myrequest</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">  makeAjaxCall(url, <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</span><br><span class="line">    gen.next(response);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> gen = main();</span><br><span class="line">gen.next();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeAjaxCall</span>(<span class="params">url, callback</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">'request'</span>)(<span class="string">'http://some.url'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, res, body</span>) </span>&#123;</span><br><span class="line">    callback(body);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看出主逻辑（main）是同步的而且很清晰，但是异步并没有平白消失，只是它们被移到了别的地方（makeAjaxCall），但是我们保证了主控制流是同步的，你可以说这是语法糖也好，但是promise也不是类似的思路么？<br>事实上co也是如此，就如同上面一样利用generator的特性来扭转控制流，当然比我上面的例子更优雅更强大（强壮）。</p>
+<p>上面的代码用co重写后是这样的：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> promiseAjax = () =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">require</span>(<span class="string">'request-promise'</span>).get(<span class="string">'http://some.url'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">co(<span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> result =  <span class="keyword">yield</span> promiseAjax();</span><br><span class="line">  <span class="keyword">var</span> res = <span class="built_in">JSON</span>.parse(result);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;).then(r =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(r);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>所以在面对callback hell的时候除了<a href="https://github.com/caolan/async" target="_blank" rel="external">aysnc</a>, promise外又多了一个好办法。</p>
+<p>下一步我要好好读一下co的源码，我建议你也这样做，或者至少你应该看一下这篇博客<a href="https://medium.com/@tjholowaychuk/callbacks-vs-coroutines-174f1fe66127#.9fw59pduu" target="_blank" rel="external">Callbacks vs Coroutines</a>，我相信会让你受益匪浅的。</p>
 </span>
       
     </div>
@@ -269,7 +254,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+            <a href="/tags/javascript-flow-control/" rel="tag">#javascript flow-control</a>
           
         </div>
       
@@ -278,17 +263,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/13/changelog/" rel="next" title="It's time to make a changelog">
-                <i class="fa fa-chevron-left"></i> It's time to make a changelog
+              <a href="/2016/03/07/vimium-leave-address-bar/" rel="next" title="How to leave focus from Chrome address bar without mouse">
+                <i class="fa fa-chevron-left"></i> How to leave focus from Chrome address bar without mouse
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/07/vimium-leave-address-bar/" rel="prev" title="How to leave focus from Chrome address bar without mouse">
-                How to leave focus from Chrome address bar without mouse <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -423,7 +404,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Guess_what_3F"><span class="nav-number">1.</span> <span class="nav-text">Guess what?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Type_Coertion"><span class="nav-number">2.</span> <span class="nav-text">Type Coertion</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What_u2019s_ToPrimitive_3F"><span class="nav-number">2.1.</span> <span class="nav-text">What’s ToPrimitive?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What_u2019s_the_ToNumber_3F"><span class="nav-number">2.2.</span> <span class="nav-text">What’s the ToNumber?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Problem_now_is_simplified"><span class="nav-number">3.</span> <span class="nav-text">Problem now is simplified</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+              <p class="post-toc-empty">This post does not have a Table Of Contents</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -483,9 +464,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'xavierblog';
-      var disqus_identifier = '2015/12/15/js-coercion/';
-      var disqus_title = 'Is empty array in JavaScript truthy or falsy?';
-      var disqus_url = 'http://yoursite.com/2015/12/15/js-coercion/';
+      var disqus_identifier = '2016/05/15/understand-co/';
+      var disqus_title = 'understand co';
+      var disqus_url = 'http://yoursite.com/2016/05/15/understand-co/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
