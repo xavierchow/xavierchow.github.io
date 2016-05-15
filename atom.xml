@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Coding and Fun]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-05-15T07:29:48.000Z</updated>
+  <updated>2016-05-15T07:38:11.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[understand co]]></title>
+    <title><![CDATA[Why use tj/co]]></title>
     <link href="http://yoursite.com/2016/05/15/understand-co/"/>
     <id>http://yoursite.com/2016/05/15/understand-co/</id>
     <published>2016-05-15T07:26:05.000Z</published>
-    <updated>2016-05-15T07:29:48.000Z</updated>
+    <updated>2016-05-15T07:38:11.000Z</updated>
     <content type="html"><![CDATA[<p>大神<a href="https://github.com/tj" target="_blank" rel="external">tj</a>的<a href="https://github.com/tj/co" target="_blank" rel="external">co</a>已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。</p>
 <p>转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了<strong>how</strong>，而没有讲<strong>why</strong>，而这正是我所在意的，我为什么要用这个模块，有什么好处？<br><a id="more"></a>  </p>
 <p>于是在<a href="https://medium.com/" target="_blank" rel="external">Medium</a>上翻到了tj的这篇博客<a href="https://medium.com/@tjholowaychuk/callbacks-vs-coroutines-174f1fe66127#.9fw59pduu" target="_blank" rel="external">Callbacks vs Coroutines</a>，<br>看完之后不禁拍案，原来动机如此，co想解决的事原来在我学习generator的时候我也尝试过！</p>
@@ -36,7 +36,9 @@
     
     </summary>
     
-      <category term="javascript flow-control" scheme="http://yoursite.com/tags/javascript-flow-control/"/>
+      <category term="flow-control" scheme="http://yoursite.com/tags/flow-control/"/>
+    
+      <category term="javascript" scheme="http://yoursite.com/tags/javascript/"/>
     
   </entry>
   
@@ -83,7 +85,7 @@
     <link href="http://yoursite.com/2015/12/15/js-coercion/"/>
     <id>http://yoursite.com/2015/12/15/js-coercion/</id>
     <published>2015-12-15T15:25:35.000Z</published>
-    <updated>2016-03-09T15:19:24.000Z</updated>
+    <updated>2016-05-15T07:37:03.000Z</updated>
     <content type="html"><![CDATA[<p>Today, one of my friends argued with me about the empty array <code>[]</code>, he think it’s falsy but in my experience I persist it should be truthy.<br><a id="more"></a><br>So, I demo it as follows:<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
 <p>Or you can also use double logical NOT to cast it to boolean, it’s the same.<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(!!a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
 <p>Looking the the evidence sentence shown in the screen, I think the argument is over till he shows me the following code,<br><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">console.<span class="command">log</span>([] == <span class="constant">false</span>);</span><br></pre></td></tr></table></figure></p>
@@ -116,7 +118,7 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
+      <category term="javascript" scheme="http://yoursite.com/tags/javascript/"/>
     
   </entry>
   

@@ -3,7 +3,12 @@
   
   <url>
     <loc>http://yoursite.com/2016/05/15/understand-co/</loc>
-    <lastmod>2016-05-15T07:29:48.000Z</lastmod>
+    <lastmod>2016-05-15T07:38:11.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2015/12/15/js-coercion/</loc>
+    <lastmod>2016-05-15T07:37:03.000Z</lastmod>
   </url>
   
   <url>
@@ -14,11 +19,6 @@
   <url>
     <loc>http://yoursite.com/2015/09/14/vim-snippets/</loc>
     <lastmod>2016-03-09T15:20:23.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2015/12/15/js-coercion/</loc>
-    <lastmod>2016-03-09T15:19:24.000Z</lastmod>
   </url>
   
   <url>
