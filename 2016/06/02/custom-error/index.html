@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="flow-control,javascript," />
+  <meta name="keywords" content="javascript," />
 
 
 
@@ -86,19 +86,16 @@
 
 
 
-<meta name="description" content="大神tj的co已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。
-转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了how，而没有讲why，而这正是我所在意的">
+<meta name="description" content="MotivationWhen your application becomes larger and more complex, you may find the default Javascript Error is not enough, you might want to use different Errors for different modules or customize it w">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Why use tj/co">
-<meta property="og:url" content="http://yoursite.com/2016/05/15/understand-co/index.html">
+<meta property="og:title" content="How to extend Javascript Error">
+<meta property="og:url" content="http://yoursite.com/2016/06/02/custom-error/index.html">
 <meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
-<meta property="og:description" content="大神tj的co已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。
-转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了how，而没有讲why，而这正是我所在意的">
-<meta property="og:updated_time" content="2016-05-15T07:38:11.000Z">
+<meta property="og:description" content="MotivationWhen your application becomes larger and more complex, you may find the default Javascript Error is not enough, you might want to use different Errors for different modules or customize it w">
+<meta property="og:updated_time" content="2016-06-04T14:46:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Why use tj/co">
-<meta name="twitter:description" content="大神tj的co已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。
-转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了how，而没有讲why，而这正是我所在意的">
+<meta name="twitter:title" content="How to extend Javascript Error">
+<meta name="twitter:description" content="MotivationWhen your application becomes larger and more complex, you may find the default Javascript Error is not enough, you might want to use different Errors for different modules or customize it w">
 
 
 
@@ -116,7 +113,7 @@
   };
 </script>
 
-  <title> Why use tj/co | A JOURNEY OF A SOFTWARE CRAFTMAN </title>
+  <title> How to extend Javascript Error | A JOURNEY OF A SOFTWARE CRAFTMAN </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -236,7 +233,7 @@
             
             
               
-                Why use tj/co
+                How to extend Javascript Error
               
             
           </h1>
@@ -248,8 +245,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-05-15T15:26:05+08:00" content="2016-05-15">
-              2016-05-15
+            <time itemprop="dateCreated" datetime="2016-06-02T23:34:10+08:00" content="2016-06-02">
+              2016-06-02
             </time>
           </span>
 
@@ -259,8 +256,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/15/understand-co/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/05/15/understand-co/" itemprop="commentsCount"></span>
+                <a href="/2016/06/02/custom-error/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/06/02/custom-error/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -270,7 +267,7 @@
 
           
           
-             <span id="/2016/05/15/understand-co/" class="leancloud_visitors" data-flag-title="Why use tj/co">
+             <span id="/2016/06/02/custom-error/" class="leancloud_visitors" data-flag-title="How to extend Javascript Error">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -292,15 +289,16 @@
       
 
       
-        <p>大神<a href="https://github.com/tj" target="_blank" rel="external">tj</a>的<a href="https://github.com/tj/co" target="_blank" rel="external">co</a>已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。</p>
-<p>转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了<strong>how</strong>，而没有讲<strong>why</strong>，而这正是我所在意的，我为什么要用这个模块，有什么好处？<br><a id="more"></a>  </p>
-<p>于是在<a href="https://medium.com/" target="_blank" rel="external">Medium</a>上翻到了tj的这篇博客<a href="https://medium.com/@tjholowaychuk/callbacks-vs-coroutines-174f1fe66127#.9fw59pduu" target="_blank" rel="external">Callbacks vs Coroutines</a>，<br>看完之后不禁拍案，原来动机如此，co想解决的事原来在我学习generator的时候我也尝试过！</p>
-<p>短话长说（反了？），我们知道es6 generator function可以重复进入，程序运行到yield语句时，控制权转移到function外部，调next的时候，控制权回来。然而generator内的代码看上去是同步顺序执行的，<br>这不正是一个能完美的将异步调用转成类似同步执行的特性吗？（没错，对于天生异步的node.js，人们一直致力于将它拧巴地或优雅地转换成人类习惯的同步方式中)</p>
-<p>上代码：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">main</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> result = <span class="keyword">yield</span> myrequest(<span class="string">"http://some.url"</span>);</span><br><span class="line">  <span class="keyword">var</span> res = <span class="built_in">JSON</span>.parse(result);</span><br><span class="line">  <span class="built_in">console</span>.log(res.msg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myrequest</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">  makeAjaxCall(url, <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</span><br><span class="line">    gen.next(response);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> gen = main();</span><br><span class="line">gen.next();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeAjaxCall</span>(<span class="params">url, callback</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">require</span>(<span class="string">'request'</span>)(<span class="string">'http://some.url'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, res, body</span>) </span>&#123;</span><br><span class="line">    callback(body);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看出主逻辑（main）是同步的而且很清晰，但是异步并没有平白消失，只是它们被移到了别的地方（makeAjaxCall），但是我们保证了主控制流是同步的，你可以说这是语法糖也好，但是promise也不是类似的思路么？<br>事实上co也是如此，就如同上面一样利用generator的特性来扭转控制流，当然比我上面的例子更优雅更强大（强壮）。</p>
-<p>上面的代码用co重写后是这样的：<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> promiseAjax = () =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">require</span>(<span class="string">'request-promise'</span>).get(<span class="string">'http://some.url'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">co(<span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> result =  <span class="keyword">yield</span> promiseAjax();</span><br><span class="line">  <span class="keyword">var</span> res = <span class="built_in">JSON</span>.parse(result);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;).then(r =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(r);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>所以在面对callback hell的时候除了<a href="https://github.com/caolan/async" target="_blank" rel="external">aysnc</a>, promise外又多了一个好办法。</p>
-<p>下一步我要好好读一下co的源码，我建议你也这样做，或者至少你应该看一下这篇博客<a href="https://medium.com/@tjholowaychuk/callbacks-vs-coroutines-174f1fe66127#.9fw59pduu" target="_blank" rel="external">Callbacks vs Coroutines</a>，我相信会让你受益匪浅的。</p>
+        <h1 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h1><p>When your application becomes larger and more complex, you may find the default Javascript <code>Error</code> is not enough, you might want to use different Errors for different modules or customize it with self-defined properties, then it’s time to extend it properly.<br><a id="more"></a>  </p>
+<h1 id="How_to_extend_error"><a href="#How_to_extend_error" class="headerlink" title="How to extend error"></a>How to extend error</h1><h2 id="ES5"><a href="#ES5" class="headerlink" title="ES5"></a>ES5</h2><p>It’s quite straightforward, using <code>util.inherits</code> and customize properties, that’s all.<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyError</span>(<span class="params">message</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = <span class="string">'MyError'</span>;</span><br><span class="line">  <span class="keyword">this</span>.message = message;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">util.inherits(MyError, <span class="built_in">Error</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> err = <span class="keyword">new</span> MyError(<span class="string">'foo'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(err);</span><br></pre></td></tr></table></figure></p>
+<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><p>But it’s 2016, we have node v4/v5/v6, you should use es6!<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;</span><br><span class="line">  constructor(message) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">'MyError'</span>;</span><br><span class="line">    <span class="keyword">this</span>.message = message;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> err = <span class="keyword">new</span> MyError(<span class="string">'bar'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(err);</span><br></pre></td></tr></table></figure></p>
+<p>However the code above doesn’t work, you will get an error <code>ReferenceError: this is not defined</code>,<br>the reason is forgetting to call <code>super()</code> in constructor, you can refer to <a href="http://stackoverflow.com/questions/31067368/javascript-es6-class-extend-without-super" target="_blank" rel="external">here</a> for details.<br>So is the following code good enough?<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;</span><br><span class="line">  constructor(message) &#123;</span><br><span class="line">    <span class="keyword">super</span>();</span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">'MyError'</span>;</span><br><span class="line">    <span class="keyword">this</span>.message = message;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> err = <span class="keyword">new</span> MyError(<span class="string">'bar'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(err);</span><br></pre></td></tr></table></figure></p>
+<h2 id="captureStackTrace"><a href="#captureStackTrace" class="headerlink" title="captureStackTrace"></a>captureStackTrace</h2><p>The answer is No if you care about call stack, consider the following code:<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;</span><br><span class="line">  constructor(message) &#123;</span><br><span class="line">    <span class="keyword">super</span>(); <span class="comment">// (A)</span></span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">'MyError'</span>;</span><br><span class="line">    <span class="keyword">this</span>.message = message;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  main();</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e.stack);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">main</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  sub();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sub</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> MyError(<span class="string">'baz'</span>); <span class="comment">// (B)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>You will find the stack frame is from (A) instead of (B), which in most of cases is not expected. The solution is using <a href="https://nodejs.org/api/errors.html#errors_error_capturestacktrace_targetobject_constructoropt" target="_blank" rel="external">captureStackTrace</a>. The defination is as follows.<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">Error.<span class="function"><span class="title">captureStackTrace</span><span class="params">(targetObject[, constructorOpt])</span></span></span><br></pre></td></tr></table></figure></p>
+<p>It mainly creates the <code>.stack</code> property for the error which indicates the location where the error is from. The first param is an object which relates to the first line of stack, but just note this sentence in document <code>The first line of the trace, instead of being prefixed with ErrorType: message, will be the result of calling targetObject.toString()</code> , actually it’s not ture, the <code>toString</code> doesn’t work at least for node v4, there’s also a github <a href="https://github.com/nodejs/node/issues/5675" target="_blank" rel="external">issue</a> for it, it just concatenates the <code>name</code> and <code>message</code> together for now, let’s skip it as it’s not so important.</p>
+<p>The second param is what we need to hide the stack frame, given a function, all frame above it(including itself) will be omit from the stack.<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;</span><br><span class="line">  constructor(message) &#123;</span><br><span class="line">    <span class="keyword">super</span>(); <span class="comment">// (A)</span></span><br><span class="line">    <span class="keyword">this</span>.name = <span class="string">'MyError'</span>;</span><br><span class="line">    <span class="keyword">this</span>.message = message;</span><br><span class="line">    <span class="built_in">Error</span>.captureStackTrace(<span class="keyword">this</span>, MyError); <span class="comment">// added</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  main();</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e.stack);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">main</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  sub();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sub</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> MyError(<span class="string">'baz'</span>); <span class="comment">// (B)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>This time the stack frame is from (B). Quite simple, isn’t it? </p>
+<h1 id="Ending"><a href="#Ending" class="headerlink" title="Ending"></a>Ending</h1><p>There’s still something to be imporved in fact, e.g compatibility and robustness, but I will not elaborate here,<br>because there’s already a tiny but convenient <a href="https://github.com/bjyoungblood/es6-error" target="_blank" rel="external">boilerplate</a> you can leverage, give it a try!</p>
 
       
     </div>
@@ -322,8 +320,6 @@
       
         <div class="post-tags">
           
-            <a href="/tags/flow-control/" rel="tag">#flow-control</a>
-          
             <a href="/tags/javascript/" rel="tag">#javascript</a>
           
         </div>
@@ -333,17 +329,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/07/vimium-leave-address-bar/" rel="next" title="How to leave focus from Chrome address bar without mouse">
-                <i class="fa fa-chevron-left"></i> How to leave focus from Chrome address bar without mouse
+              <a href="/2016/05/15/understand-co/" rel="next" title="Why use tj/co">
+                <i class="fa fa-chevron-left"></i> Why use tj/co
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/06/02/custom-error/" rel="prev" title="How to extend Javascript Error">
-                How to extend Javascript Error <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -484,7 +476,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Motivation"><span class="nav-number">1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How_to_extend_error"><span class="nav-number">2.</span> <span class="nav-text">How to extend error</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES5"><span class="nav-number">2.1.</span> <span class="nav-text">ES5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6"><span class="nav-number">2.2.</span> <span class="nav-text">ES6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#captureStackTrace"><span class="nav-number">2.3.</span> <span class="nav-text">captureStackTrace</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ending"><span class="nav-number">3.</span> <span class="nav-text">Ending</span></a></li></ol></div>
             
           </div>
         </section>
@@ -604,9 +596,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'xavierblog';
-      var disqus_identifier = '2016/05/15/understand-co/';
-      var disqus_title = "Why use tj/co";
-      var disqus_url = 'http://yoursite.com/2016/05/15/understand-co/';
+      var disqus_identifier = '2016/06/02/custom-error/';
+      var disqus_title = "How to extend Javascript Error";
+      var disqus_url = 'http://yoursite.com/2016/06/02/custom-error/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
