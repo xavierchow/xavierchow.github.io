@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://yoursite.com/images/microservices-nsq-rabbitmq-1.png">
 <meta property="og:image" content="http://yoursite.com/images/microservices-nsq-rabbitmq-2.png">
 <meta property="og:image" content="http://yoursite.com/images/microservices-nsq-rabbitmq-2.png">
-<meta property="og:updated_time" content="2016-08-06T12:57:30.000Z">
+<meta property="og:updated_time" content="2016-08-06T15:32:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Using Message Queues with Microservices">
 <meta name="twitter:description" content="We build MicroservicesSo, what’s the big deal with microservices? Well, there are numerous benefits to building these little guys compared to the traditional monolithic architecture of days long gone:">
@@ -303,6 +303,7 @@
 <li>Easy to deply and scale</li>
 <li>Plug-and-play format</li>
 </ol>
+<a id="more"></a>  
 <p>I won’t waste your time telling you why you should be using microservices, there are plenty of folks advocating this approach already. You can refer to <a href="http://martinfowler.com/articles/microservices.html" target="_blank" rel="external">MartinFowler.com</a> and <a href="https://blog.risingstack.com/why-you-should-start-using-microservices/" target="_blank" rel="external">these guys</a> for more information about what microservices are and the advantages they have.<br>Despite their extreme usefulness, microservices are certainly not some silve bullet for all of you backend problems. One of their biggest downfalls is the complexity of interaction between the servcies you build. </p>
 <p>We use <a href="https://nodejs.org/en/" target="_blank" rel="external">node.js</a> and <a href="https://loopback.io/" target="_blank" rel="external">loopback</a> to build REST API services, which means the we mainly rely HTTP(S) protocal, As you start to build the backend, it’s not too difficult to keep a clean and graceful structure at beginning, because you can definately differentiate the upstream and downstream services clealy and neatly. However as the requirements increase in volume and complexity and the system evolves, you may find you messed something up and the API callings are now looking like your mother’s spaghetti!</p>
 <p><img src="/images/microservices-nsq-rabbitmq-1.png" alt=""></p>
@@ -313,7 +314,12 @@
 </ol>
 <h3 id="Candidates"><a href="#Candidates" class="headerlink" title="Candidates"></a>Candidates</h3><p>We have 2 candidates for serving as our message queue platfom: <a href="https://www.rabbitmq.com/" target="_blank" rel="external">RabbitMQ</a> and <a href="http://nsq.io/" target="_blank" rel="external">NSQ</a>, both have their own pros and cons, so let’s evaluate.</p>
 <ul>
-<li><p>Pros of RabbitMQ<br>1.Based on the open standard protocal: <a href="https://www.amqp.org/" target="_blank" rel="external">AMQP</a><br>2.Mature and stable<br>3.Introcude <code>exchange</code> between producer and consumer and fledged with lots of patterns(Direct/Worker/Pub-Sub/Route/RPC…)</p>
+<li><p>Pros of RabbitMQ</p>
+<ul>
+<li>Based on the open standard protocal: <a href="https://www.amqp.org/" target="_blank" rel="external">AMQP</a></li>
+<li>Mature and stable</li>
+<li>Introcude <code>exchange</code> between producer and consumer and fledged with lots of patterns(Direct/Worker/Pub-Sub/Route/RPC…)</li>
+</ul>
 </li>
 <li><p>Cons of RabbitMQ</p>
 <ul>
@@ -349,7 +355,7 @@
 <h2 id="How_we_use_NSQ"><a href="#How_we_use_NSQ" class="headerlink" title="How we use NSQ"></a>How we use NSQ</h2><p>There’re plenty of client libraries in <a href="http://nsq.io/clients/client_libraries.html" target="_blank" rel="external">NSQ website</a>. We use the offical JavaScript client <a href="https://github.com/dudleycarr/nsqjs" target="_blank" rel="external">nsqjs</a> to build our loopback based microservice. However we are not satisfied with the <code>Writer</code> interface, because you have to known the <code>nsqd</code> address beforehand and pass it to the Writer, which is not at all practical. We may scale the nsqd cluster according the needs and the nsqd itself should be able to auto-discovered(not only for consumer but also for the producer side).</p>
 <p>That’s why we build the library <a href="https://github.com/Wiredcraft/nsq-strategies" target="_blank" rel="external">nsq-strategies</a>, a wrapper of official client library(nsqjs) with different strategies. Currently it supports round-robin and fanout strategies. For example, you now can transfer the lookupd addresses to the producer which means you don’t need to change the code when the nsqd cluster changes and the prodcuer would pick one of nsqd nodes in a round-robin way for sending message.<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Producer = <span class="built_in">require</span>(<span class="string">'nsq-strategies'</span>).Producer;</span><br><span class="line">  <span class="keyword">const</span> p = <span class="keyword">new</span> Producer(&#123;</span><br><span class="line">    lookupdHTTPAddresses: [<span class="string">'127.0.0.1:9011'</span>, <span class="string">'127.0.0.1:9012'</span>]</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    strategy: Producer.ROUND_ROBIN</span><br><span class="line">  &#125;);</span><br><span class="line">  p.connect((errors) =&gt; &#123;</span><br><span class="line">    p.produce(<span class="string">'topic'</span>, <span class="string">'message'</span>, (err) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure></p>
 <h2 id="Wrapping_things_up"><a href="#Wrapping_things_up" class="headerlink" title="Wrapping things up"></a>Wrapping things up</h2><p>If you are building microservies, you should consider adopting a message queue as a supplement and give it a try with NSQ (or RabbitMQ).<br>Use it then improve it, like we did. That’s the way we build apps that matters.</p>
-<p>Finally thanks to <a href="https://github.com/hopechen1028" target="_blank" rel="external">@hopechen1028</a> and <a href="https://github.com/jonathangoodwin" target="_blank" rel="external">@jonathangoodwin</a> for illustration and polishing my words.</p>
+<p>Finally thanks to <a href="https://github.com/hopechen1028" target="_blank" rel="external">@hopechen1028</a> and <a href="https://github.com/jonathangoodwin" target="_blank" rel="external">@jonathangoodwin</a> for illustration and help to polish my words.</p>
 
       
     </div>
