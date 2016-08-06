@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Coding and Fun]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-08-06T15:32:53.000Z</updated>
+  <updated>2016-08-06T15:52:20.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2016/08/06/mq-with-microservice/"/>
     <id>http://yoursite.com/2016/08/06/mq-with-microservice/</id>
     <published>2016-08-06T12:41:10.000Z</published>
-    <updated>2016-08-06T15:32:53.000Z</updated>
+    <updated>2016-08-06T15:52:20.000Z</updated>
     <content type="html"><![CDATA[<p><img src="/images/microservices-nsq-rabbitmq.png" alt=""></p>
 <h2 id="We_build_Microservices"><a href="#We_build_Microservices" class="headerlink" title="We build Microservices"></a>We build Microservices</h2><p>So, what’s the big deal with microservices? Well, there are numerous benefits to building these little guys compared to the <a href="https://en.wikipedia.org/wiki/Monolithic_system" target="_blank" rel="external">traditional monolithic architecture</a> of days long gone:</p>
 <ol>
@@ -97,6 +97,10 @@
 </ol>]]>
     
     </summary>
+    
+      <category term="Microservice" scheme="http://yoursite.com/tags/Microservice/"/>
+    
+      <category term="Nsq" scheme="http://yoursite.com/tags/Nsq/"/>
     
   </entry>
   
