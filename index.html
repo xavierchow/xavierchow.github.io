@@ -235,6 +235,172 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/06/mq-with-microservice/" itemprop="url">
+                  Using Message Queues with Microservices
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-08-06T20:41:10+08:00" content="2016-08-06">
+              2016-08-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/06/mq-with-microservice/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/06/mq-with-microservice/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/06/mq-with-microservice/" class="leancloud_visitors" data-flag-title="Using Message Queues with Microservices">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/images/microservices-nsq-rabbitmq.png" alt=""></p>
+<h2 id="We_build_Microservices"><a href="#We_build_Microservices" class="headerlink" title="We build Microservices"></a>We build Microservices</h2><p>So, what’s the big deal with microservices? Well, there are numerous benefits to building these little guys compared to the <a href="https://en.wikipedia.org/wiki/Monolithic_system" target="_blank" rel="external">traditional monolithic architecture</a> of days long gone:</p>
+<ol>
+<li>Small codebase</li>
+<li>Reusable</li>
+<li>Loosly coupled</li>
+<li>Easy to enhance and extend</li>
+<li>Easy to deply and scale</li>
+<li>Plug-and-play format</li>
+</ol>
+<p>I won’t waste your time telling you why you should be using microservices, there are plenty of folks advocating this approach already. You can refer to <a href="http://martinfowler.com/articles/microservices.html" target="_blank" rel="external">MartinFowler.com</a> and <a href="https://blog.risingstack.com/why-you-should-start-using-microservices/" target="_blank" rel="external">these guys</a> for more information about what microservices are and the advantages they have.<br>Despite their extreme usefulness, microservices are certainly not some silve bullet for all of you backend problems. One of their biggest downfalls is the complexity of interaction between the servcies you build. </p>
+<p>We use <a href="https://nodejs.org/en/" target="_blank" rel="external">node.js</a> and <a href="https://loopback.io/" target="_blank" rel="external">loopback</a> to build REST API services, which means the we mainly rely HTTP(S) protocal, As you start to build the backend, it’s not too difficult to keep a clean and graceful structure at beginning, because you can definately differentiate the upstream and downstream services clealy and neatly. However as the requirements increase in volume and complexity and the system evolves, you may find you messed something up and the API callings are now looking like your mother’s spaghetti!</p>
+<p><img src="/images/microservices-nsq-rabbitmq-1.png" alt=""></p>
+<h2 id="Why_we_use_message_queues"><a href="#Why_we_use_message_queues" class="headerlink" title="Why we use message queues"></a>Why we use message queues</h2><p>The cross dependency means the system is tightly coupled, so no single service can go it alone without cooperation from other services. We use the message queue as a supplement for decoupling and keeping the the architecture flexible.<br>Acturally, in addition to the decoupling, we expect the following features from message queue:</p>
+<ol>
+<li>A mechanism with retry(and delay retry upon failure)</li>
+<li>Pub-sub(publish-subscriber) pattern</li>
+</ol>
+<h3 id="Candidates"><a href="#Candidates" class="headerlink" title="Candidates"></a>Candidates</h3><p>We have 2 candidates for serving as our message queue platfom: <a href="https://www.rabbitmq.com/" target="_blank" rel="external">RabbitMQ</a> and <a href="http://nsq.io/" target="_blank" rel="external">NSQ</a>, both have their own pros and cons, so let’s evaluate.</p>
+<ul>
+<li><p>Pros of RabbitMQ<br>1.Based on the open standard protocal: <a href="https://www.amqp.org/" target="_blank" rel="external">AMQP</a><br>2.Mature and stable<br>3.Introcude <code>exchange</code> between producer and consumer and fledged with lots of patterns(Direct/Worker/Pub-Sub/Route/RPC…)</p>
+</li>
+<li><p>Cons of RabbitMQ</p>
+<ul>
+<li>A bit steep learning curve</li>
+<li>Not easy to implement retry with failiure.</li>
+</ul>
+</li>
+<li><p>Pros of NSQ</p>
+<ul>
+<li>Good at distributed topologies with no <a href="https://en.wikipedia.org/wiki/Single_point_of_failure" target="_blank" rel="external">SPOF</a>, which means high available(even if some nodes go down you can still use the messaging service)</li>
+<li>One concise message model</li>
+<li>Supoort retry with delay naturally</li>
+</ul>
+</li>
+<li><p>Cons of NSQ</p>
+<ul>
+<li>Messages are not durable by default</li>
+</ul>
+</li>
+</ul>
+<h3 id="Why_we_choose_NSQ"><a href="#Why_we_choose_NSQ" class="headerlink" title="Why we choose NSQ"></a>Why we choose NSQ</h3><p>First, the message model of NSQ is simple and direct. No middle man no broker. All you need do is just define the producer and consumer. If you need fanout or broadcast, you can add multiple channels for the topic.</p>
+<p>Second, we need retry with a delay mechanism. Though it is doable to use RabbitMQ, it’s not so that easy to manage. The main approach for this is using an additional <a href="https://www.rabbitmq.com/dlx.html" target="_blank" rel="external">deadletter exchange</a> to simulate the delay-attempts.<br>Here’s the <a href="http://yuserinterface.com/dev/2013/01/08/how-to-schedule-delay-messages-with-rabbitmq-using-a-dead-letter-exchange/" target="_blank" rel="external">gist of how it works</a>. It’s an unnecessary hassle, so we avoid tit whenever possible.</p>
+<p><img src="/images/microservices-nsq-rabbitmq-2.png" alt=""></p>
+<p>If you use NSQ, you merely need to call <code>requeue()</code> with parameter of delay, then you’re done!</p>
+<p>The last reason we choose NSQ is its core is written by <a href="http://golang.org/" target="_blank" rel="external">Go</a>. Aside fromn Node.js, we also use Go for some of our backend porjects, let’s keep trying and chanlleging new techonolies. :D</p>
+<p><img src="/images/microservices-nsq-rabbitmq-2.png" alt=""></p>
+<p>Something worth mentioning again, NSQ is not perfect and does have its pain points (e.g. if you want to ensure strong message durability), so you should be aware of the following shortcomings. </p>
+<ul>
+<li>No message replication and it’s mainly in memory.</li>
+<li>No publisher confirmation. If there’s a failure in the nsqd node when the message happens to arrive, you lost this message.</li>
+</ul>
+<p>There is <a href="https://github.com/mreiferson/mreiferson.github.com/blob/nsq_roadmap_1/posts/nsq_roadmap.md" target="_blank" rel="external">roadmap</a> of NSQ’s durability and delivery guarantee. To solve the problems above you can duplicate the message with the same topic to ensure it will be delivered at least once(but more than once in most of cases), this means you need your client to de-dupe or make the operation idempotent.</p>
+<h2 id="How_we_use_NSQ"><a href="#How_we_use_NSQ" class="headerlink" title="How we use NSQ"></a>How we use NSQ</h2><p>There’re plenty of client libraries in <a href="http://nsq.io/clients/client_libraries.html" target="_blank" rel="external">NSQ website</a>. We use the offical JavaScript client <a href="https://github.com/dudleycarr/nsqjs" target="_blank" rel="external">nsqjs</a> to build our loopback based microservice. However we are not satisfied with the <code>Writer</code> interface, because you have to known the <code>nsqd</code> address beforehand and pass it to the Writer, which is not at all practical. We may scale the nsqd cluster according the needs and the nsqd itself should be able to auto-discovered(not only for consumer but also for the producer side).</p>
+<p>That’s why we build the library <a href="https://github.com/Wiredcraft/nsq-strategies" target="_blank" rel="external">nsq-strategies</a>, a wrapper of official client library(nsqjs) with different strategies. Currently it supports round-robin and fanout strategies. For example, you now can transfer the lookupd addresses to the producer which means you don’t need to change the code when the nsqd cluster changes and the prodcuer would pick one of nsqd nodes in a round-robin way for sending message.<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Producer = <span class="built_in">require</span>(<span class="string">'nsq-strategies'</span>).Producer;</span><br><span class="line">  <span class="keyword">const</span> p = <span class="keyword">new</span> Producer(&#123;</span><br><span class="line">    lookupdHTTPAddresses: [<span class="string">'127.0.0.1:9011'</span>, <span class="string">'127.0.0.1:9012'</span>]</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    strategy: Producer.ROUND_ROBIN</span><br><span class="line">  &#125;);</span><br><span class="line">  p.connect((errors) =&gt; &#123;</span><br><span class="line">    p.produce(<span class="string">'topic'</span>, <span class="string">'message'</span>, (err) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="Wrapping_things_up"><a href="#Wrapping_things_up" class="headerlink" title="Wrapping things up"></a>Wrapping things up</h2><p>If you are building microservies, you should consider adopting a message queue as a supplement and give it a try with NSQ (or RabbitMQ).<br>Use it then improve it, like we did. That’s the way we build apps that matters.</p>
+<p>Finally thanks to <a href="https://github.com/hopechen1028" target="_blank" rel="external">@hopechen1028</a> and <a href="https://github.com/jonathangoodwin" target="_blank" rel="external">@jonathangoodwin</a> for illustration and polishing my words.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/02/custom-error/" itemprop="url">
                   How to extend Javascript Error
                 </a>
@@ -1265,7 +1431,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
