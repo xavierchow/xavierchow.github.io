@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-10-15T03:35:45.000Z</updated>
+  <updated>2017-10-15T03:48:05.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>format_json</title>
+    <title>Format json file within vim</title>
     <link href="http://yoursite.com/2017/10/15/format-json/"/>
     <id>http://yoursite.com/2017/10/15/format-json/</id>
     <published>2017-10-15T03:35:45.000Z</published>
-    <updated>2017-10-15T03:35:45.000Z</updated>
+    <updated>2017-10-15T03:48:05.000Z</updated>
     
     <content type="html"><![CDATA[<p>Put the following snip to your vimrc, whenever you open a JSON file, you can format it with hotkey fj in normal mode.</p><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">FmtJSON</span>(<span class="params">...</span>) </span></div><div class="line"><span class="function">  <span class="title">let</span> <span class="title">code</span>="\"</span></div><div class="line"><span class="function">        \ <span class="title">var</span> <span class="title">i</span> = <span class="title">process</span>.<span class="title">stdin</span>, <span class="title">d</span> = '';</span></div><div class="line"><span class="function">        \ <span class="title">i</span>.<span class="title">resume</span>(<span class="params"></span>);</span></div><div class="line"><span class="function">        \ <span class="title">i</span>.<span class="title">setEncoding</span>(<span class="params"><span class="string">'utf8'</span></span>);</span></div><div class="line"><span class="function">        \ <span class="title">i</span>.<span class="title">on</span>(<span class="params"><span class="string">'data'</span>, function(data</span>) </span>&#123; d += data; &#125;);</div><div class="line">        \ i.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        \     <span class="keyword">try</span> &#123;</div><div class="line">        \       <span class="built_in">JSON</span>.parse(d) </div><div class="line">        \     &#125; <span class="keyword">catch</span>(e) &#123; <span class="keyword">return</span> <span class="built_in">console</span>.log(d); &#125;</div><div class="line">        \     <span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(<span class="built_in">JSON</span>.parse(d), <span class="literal">null</span>, </div><div class="line">        \ <span class="string">" . (a:0 ? a:1 ? a:1 : 2 : 2) . "</span>));</div><div class="line">        \ &#125;);\<span class="string">""</span></div><div class="line">  execute <span class="string">"%! node -e "</span> . code </div><div class="line">endfunction</div><div class="line"></div><div class="line">nmap fj :&lt;C-U&gt;call FmtJSON(v:count)&lt;CR&gt;</div></pre></td></tr></table></figure><p>The main part of function FmtJSON is copied from somewhere, but if the JSON file is malformed you probably override the original file unexpectedly, so I added try-catch in the end event handler.</p>]]></content>
     
