@@ -87,16 +87,19 @@
 
 
 <meta name="description" content="Today, one of my friends argued with me about the empty array [], he think it’s falsy but in my experience I persist it should be truthy.">
+<meta name="keywords" content="javascript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Is empty array in JavaScript truthy or falsy?">
 <meta property="og:url" content="http://yoursite.com/2015/12/15/js-coercion/index.html">
 <meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
 <meta property="og:description" content="Today, one of my friends argued with me about the empty array [], he think it’s falsy but in my experience I persist it should be truthy.">
+<meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/images/js-coercion-table.png">
 <meta property="og:updated_time" content="2016-05-15T07:37:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Is empty array in JavaScript truthy or falsy?">
 <meta name="twitter:description" content="Today, one of my friends argued with me about the empty array [], he think it’s falsy but in my experience I persist it should be truthy.">
+<meta name="twitter:image" content="http://yoursite.com/images/js-coercion-table.png">
 
 
 
@@ -290,27 +293,27 @@
       
 
       
-        <p>Today, one of my friends argued with me about the empty array <code>[]</code>, he think it’s falsy but in my experience I persist it should be truthy.<br><a id="more"></a><br>So, I demo it as follows:<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
-<p>Or you can also use double logical NOT to cast it to boolean, it’s the same.<br><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">var a = <span class="keyword">[</span>];<span class="instruction"></span><br><span class="line">if </span>(!!a<span class="function">)</span><span class="function"> console.log(</span>'empty<span class="instruction"> array </span>is truthy'<span class="function">)</span>;</span><br></pre></td></tr></table></figure></p>
-<p>Looking the the evidence sentence shown in the screen, I think the argument is over till he shows me the following code,<br><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">console.<span class="command">log</span>([] == <span class="constant">false</span>);</span><br></pre></td></tr></table></figure></p>
-<h2 id="Guess_what_3F"><a href="#Guess_what_3F" class="headerlink" title="Guess what?"></a>Guess what?</h2><p>The result is <strong>true</strong>. Woooooot? Well, I know there must be something wrong, escpecially the suspicous loose equality operation. I have to figure it out why it has such odd behaviour.</p>
-<h2 id="Type_Coertion"><a href="#Type_Coertion" class="headerlink" title="Type Coertion"></a>Type Coertion</h2><p>There are both awesome articles about the equality comparison algorithm in JavaScript world.</p>
+        <p>Today, one of my friends argued with me about the empty array <code>[]</code>, he think it’s falsy but in my experience I persist it should be truthy.<br><a id="more"></a><br>So, I demo it as follows:<br><figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">var a = [];</div><div class="line">if (a) console.log('empty<span class="built_in"> array </span>is truthy');</div></pre></td></tr></table></figure></p>
+<p>Or you can also use double logical NOT to cast it to boolean, it’s the same.<br><figure class="highlight smali"><table><tr><td class="code"><pre><div class="line">var a = [];</div><div class="line">if (!!a) console.log('empty<span class="built_in"> array </span>is truthy');</div></pre></td></tr></table></figure></p>
+<p>Looking the the evidence sentence shown in the screen, I think the argument is over till he shows me the following code,<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="built_in">console</span>.log([] == <span class="literal">false</span>);</div></pre></td></tr></table></figure></p>
+<h2 id="Guess-what"><a href="#Guess-what" class="headerlink" title="Guess what?"></a>Guess what?</h2><p>The result is <strong>true</strong>. Woooooot? Well, I know there must be something wrong, escpecially the suspicous loose equality operation. I have to figure it out why it has such odd behaviour.</p>
+<h2 id="Type-Coertion"><a href="#Type-Coertion" class="headerlink" title="Type Coertion"></a>Type Coertion</h2><p>There are both awesome articles about the equality comparison algorithm in JavaScript world.</p>
 <ul>
 <li><a href="http://bclary.com/2004/11/07/#a-11.9.3" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-11.9.3</a></li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness</a><br><img src="/images/js-coercion-table.png" alt=""><br>–<em>table from <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness</a></em></li>
 </ul>
 <p>The key point is applying <code>ToPrimitive([])</code> and <code>ToNumber(false)</code>, then compare them.</p>
-<h3 id="What_u2019s_ToPrimitive_3F"><a href="#What_u2019s_ToPrimitive_3F" class="headerlink" title="What’s ToPrimitive?"></a>What’s ToPrimitive?</h3><p>ToPrimitive is a internal operation which attempts to convert its object argument to a primitive value, by attempting to invoke varying sequences of <code>toString</code> and <code>valueOf</code> methods on the Object. The detail steps can be found here: <a href="http://bclary.com/2004/11/07/#a-9.1" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-9.1</a><br>So, firstly try <code>[].valueOf()</code> which returns itself, it’s not primitive, then try to call <code>[].toString</code>, for <code>Array.toString</code>, according <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toString" target="_blank" rel="external">MDN</a>, </p>
+<h3 id="What’s-ToPrimitive"><a href="#What’s-ToPrimitive" class="headerlink" title="What’s ToPrimitive?"></a>What’s ToPrimitive?</h3><p>ToPrimitive is a internal operation which attempts to convert its object argument to a primitive value, by attempting to invoke varying sequences of <code>toString</code> and <code>valueOf</code> methods on the Object. The detail steps can be found here: <a href="http://bclary.com/2004/11/07/#a-9.1" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-9.1</a><br>So, firstly try <code>[].valueOf()</code> which returns itself, it’s not primitive, then try to call <code>[].toString</code>, for <code>Array.toString</code>, according <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toString" target="_blank" rel="external">MDN</a>, </p>
 <blockquote>
 <p>For Array objects, the toString method joins the array and returns one string containing each array element separated by commas. </p>
 </blockquote>
 <p>This means we get the empty string <code>&#39;&#39;</code>.</p>
-<h3 id="What_u2019s_the_ToNumber_3F"><a href="#What_u2019s_the_ToNumber_3F" class="headerlink" title="What’s the ToNumber?"></a>What’s the ToNumber?</h3><p>Basically apply the <code>+</code> operation on the target, for boolean, </p>
+<h3 id="What’s-the-ToNumber"><a href="#What’s-the-ToNumber" class="headerlink" title="What’s the ToNumber?"></a>What’s the ToNumber?</h3><p>Basically apply the <code>+</code> operation on the target, for boolean, </p>
 <blockquote>
 <p> 1 if the argument is true. +0 if the argument is false.</p>
 </blockquote>
 <p>for other types refer to :<a href="http://bclary.com/2004/11/07/#a-9.3" target="_blank" rel="external">http://bclary.com/2004/11/07/#a-9.3</a></p>
-<h2 id="Problem_now_is_simplified"><a href="#Problem_now_is_simplified" class="headerlink" title="Problem now is simplified"></a>Problem now is simplified</h2><p>Is <code>&#39;&#39; == 0</code> truthy or falsy? Again begin with applying <code>ToNumber</code> to emtpy string <code>&#39;&#39;</code>, the rules is complicated <a href="http://bclary.com/2004/11/07/#a-9.3.1" target="_blank" rel="external">here</a> but for empty string it’s simple as follows,</p>
+<h2 id="Problem-now-is-simplified"><a href="#Problem-now-is-simplified" class="headerlink" title="Problem now is simplified"></a>Problem now is simplified</h2><p>Is <code>&#39;&#39; == 0</code> truthy or falsy? Again begin with applying <code>ToNumber</code> to emtpy string <code>&#39;&#39;</code>, the rules is complicated <a href="http://bclary.com/2004/11/07/#a-9.3.1" target="_blank" rel="external">here</a> but for empty string it’s simple as follows,</p>
 <blockquote>
 <p>A StringNumericLiteral that is empty or contains only white space is converted to +0.</p>
 </blockquote>
@@ -431,7 +434,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -441,7 +444,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -497,7 +500,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Guess_what_3F"><span class="nav-number">1.</span> <span class="nav-text">Guess what?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Type_Coertion"><span class="nav-number">2.</span> <span class="nav-text">Type Coertion</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What_u2019s_ToPrimitive_3F"><span class="nav-number">2.1.</span> <span class="nav-text">What’s ToPrimitive?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What_u2019s_the_ToNumber_3F"><span class="nav-number">2.2.</span> <span class="nav-text">What’s the ToNumber?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Problem_now_is_simplified"><span class="nav-number">3.</span> <span class="nav-text">Problem now is simplified</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Guess-what"><span class="nav-number">1.</span> <span class="nav-text">Guess what?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Type-Coertion"><span class="nav-number">2.</span> <span class="nav-text">Type Coertion</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What’s-ToPrimitive"><span class="nav-number">2.1.</span> <span class="nav-text">What’s ToPrimitive?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What’s-the-ToNumber"><span class="nav-number">2.2.</span> <span class="nav-text">What’s the ToNumber?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Problem-now-is-simplified"><span class="nav-number">3.</span> <span class="nav-text">Problem now is simplified</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">4.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
             
           </div>
         </section>
@@ -516,7 +519,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

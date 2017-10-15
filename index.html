@@ -86,15 +86,13 @@
 
 
 
-<meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
 <meta property="og:url" content="http://yoursite.com/index.html">
 <meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
-<meta property="og:description">
+<meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
-<meta name="twitter:description">
 
 
 
@@ -235,6 +233,118 @@
             
               
                 
+                <a class="post-title-link" href="/2017/10/15/format-json/" itemprop="url">
+                  format_json
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-10-15T11:35:45+08:00" content="2017-10-15">
+              2017-10-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/10/15/format-json/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/15/format-json/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/10/15/format-json/" class="leancloud_visitors" data-flag-title="format_json">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Put the following snip to your vimrc, whenever you open a JSON file, you can format it with hotkey fj in normal mode.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">FmtJSON</span>(<span class="params">...</span>) </span></div><div class="line"><span class="function">  <span class="title">let</span> <span class="title">code</span>="\"</span></div><div class="line"><span class="function">        \ <span class="title">var</span> <span class="title">i</span> = <span class="title">process</span>.<span class="title">stdin</span>, <span class="title">d</span> = '';</span></div><div class="line"><span class="function">        \ <span class="title">i</span>.<span class="title">resume</span>(<span class="params"></span>);</span></div><div class="line"><span class="function">        \ <span class="title">i</span>.<span class="title">setEncoding</span>(<span class="params"><span class="string">'utf8'</span></span>);</span></div><div class="line"><span class="function">        \ <span class="title">i</span>.<span class="title">on</span>(<span class="params"><span class="string">'data'</span>, function(data</span>) </span>&#123; d += data; &#125;);</div><div class="line">        \ i.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        \     <span class="keyword">try</span> &#123;</div><div class="line">        \       <span class="built_in">JSON</span>.parse(d) </div><div class="line">        \     &#125; <span class="keyword">catch</span>(e) &#123; <span class="keyword">return</span> <span class="built_in">console</span>.log(d); &#125;</div><div class="line">        \     <span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(<span class="built_in">JSON</span>.parse(d), <span class="literal">null</span>, </div><div class="line">        \ <span class="string">" . (a:0 ? a:1 ? a:1 : 2 : 2) . "</span>));</div><div class="line">        \ &#125;);\<span class="string">""</span></div><div class="line">  execute <span class="string">"%! node -e "</span> . code </div><div class="line">endfunction</div><div class="line"></div><div class="line">nmap fj :&lt;C-U&gt;call FmtJSON(v:count)&lt;CR&gt;</div></pre></td></tr></table></figure>
+<p>The main part of function FmtJSON is copied from somewhere, but if the JSON file is malformed you probably override the original file unexpectedly, so I added try-catch in the end event handler.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/06/mq-with-microservice/" itemprop="url">
                   Using Message Queues with Microservices
                 </a>
@@ -295,7 +405,7 @@
       
         
           <p><img src="/images/microservices-nsq-rabbitmq.png" alt=""></p>
-<h2 id="We_build_Microservices"><a href="#We_build_Microservices" class="headerlink" title="We build Microservices"></a>We build Microservices</h2><p>So, what’s the big deal with microservices? Well, there are numerous benefits to building these little guys compared to the <a href="https://en.wikipedia.org/wiki/Monolithic_system">traditional monolithic architecture</a> of days long gone:</p>
+<h2 id="We-build-Microservices"><a href="#We-build-Microservices" class="headerlink" title="We build Microservices"></a>We build Microservices</h2><p>So, what’s the big deal with microservices? Well, there are numerous benefits to building these little guys compared to the <a href="https://en.wikipedia.org/wiki/Monolithic_system" target="_blank" rel="external">traditional monolithic architecture</a> of days long gone:</p>
 <ol>
 <li>Small codebase</li>
 <li>Reusable</li>
@@ -527,7 +637,7 @@
 
       
         
-          <p>大神<a href="https://github.com/tj">tj</a>的<a href="https://github.com/tj/co">co</a>已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。</p>
+          <p>大神<a href="https://github.com/tj" target="_blank" rel="external">tj</a>的<a href="https://github.com/tj/co" target="_blank" rel="external">co</a>已经超过5千star了，之前公司的小伙伴有在用这个模块，那时我还没有开始用es6，对于genenrator也是一知半解，匆匆扫了一眼，说实话没看懂，当时手头也比较忙也就这样先放着了。</p>
 <p>转眼在项目中正式用es6也有半年多了，准备回过头来再学一下co，翻了一下github上的README, 什么鬼？还是没搞懂。。。主要问题是examples只讲了<strong>how</strong>，而没有讲<strong>why</strong>，而这正是我所在意的，我为什么要用这个模块，有什么好处？<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/05/15/understand-co/#more" rel="contents">
@@ -640,7 +750,7 @@
 
       
         
-          <p>As a vimer, I have been using a plugin called <a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en">Vimium</a> in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump link/history back etc, however there is one thing sometimes annoys me, the <strong>address bar</strong>.<br>
+          <p>As a vimer, I have been using a plugin called <a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en" target="_blank" rel="external">Vimium</a> in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump link/history back etc, however there is one thing sometimes annoys me, the <strong>address bar</strong>.<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/03/07/vimium-leave-address-bar/#more" rel="contents">
               Read more &raquo;
@@ -864,7 +974,7 @@
 
       
         
-          <h2 id="What_u2019s_changelog_and_why_use_it_3F"><a href="#What_u2019s_changelog_and_why_use_it_3F" class="headerlink" title="What’s changelog and why use it?"></a>What’s changelog and why use it?</h2><p>Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.<br>Usually it containes records as fix bugs, features, deprecated or something else. Normally it’s named with <code>CHANGELOG.md</code>, <code>History.md</code> etc. although the best convension I think is <code>CHANGELOG.md</code>.<br>Here is a pretty well post with comprehensive description for <strong>changelog</strong>. <a href="http://keepachangelog.com/">http://keepachangelog.com/</a> and from there you can also find why use changelog.<br>
+          <h2 id="What’s-changelog-and-why-use-it"><a href="#What’s-changelog-and-why-use-it" class="headerlink" title="What’s changelog and why use it?"></a>What’s changelog and why use it?</h2><p>Changelog records the history changes for a development, it lets users or contributors easily find what’s changed in the certain release or tag.<br>Usually it containes records as fix bugs, features, deprecated or something else. Normally it’s named with <code>CHANGELOG.md</code>, <code>History.md</code> etc. although the best convension I think is <code>CHANGELOG.md</code>.<br>Here is a pretty well post with comprehensive description for <strong>changelog</strong>. <a href="http://keepachangelog.com/" target="_blank" rel="external">http://keepachangelog.com/</a> and from there you can also find why use changelog.<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/12/13/changelog/#more" rel="contents">
               Read more &raquo;
@@ -1201,121 +1311,9 @@
 
       
         
-          <h1 id="u80CC_u666F"><a href="#u80CC_u666F" class="headerlink" title="背景"></a>背景</h1><p>自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读<em>程序人生</em>的技术专栏<a href="http://mp.weixin.qq.com/s?__biz=MzA3NDM0ODQwMw==&amp;mid=206041450&amp;idx=1&amp;sn=3982c8cc45d7c47f0fbc19fe8371490f&amp;scene=0#rd">程序员效率指南</a>, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过snippets….亡羊补牢吧。<br>
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>自我感觉作为一个程序员，还算得上一个比较有效率的人，最近拜读<em>程序人生</em>的技术专栏<a href="http://mp.weixin.qq.com/s?__biz=MzA3NDM0ODQwMw==&amp;mid=206041450&amp;idx=1&amp;sn=3982c8cc45d7c47f0fbc19fe8371490f&amp;scene=0#rd" target="_blank" rel="external">程序员效率指南</a>, 不由得自省了一把，其他还马马虎虎，作一个VIM用了2，3年的programmer，(虽然偶尔也用WebStrom和InteliJ, 毕竟vim是自己的主力editor)，尴尬了，尽管也有neocomplete等一干plugin助力，居然没有用过snippets….亡羊补牢吧。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/09/14/vim-snippets/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/14/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-09-14T13:33:06+08:00" content="2015-09-14">
-              2015-09-14
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/09/14/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/09/14/hello-world/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2015/09/14/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">visitors </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Welcome to <a href="http://hexo.io/">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/09/14/hello-world/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1348,6 +1346,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1386,7 +1388,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1396,7 +1398,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -1460,7 +1462,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
