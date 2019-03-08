@@ -322,7 +322,8 @@
 
       
         
-          <p>I am a big fan of TDD, and I use docker a lot to build the dependencies(APIs, Database, etc.) for the unit test in my local development environment and CI. Everything goes well until one day our lovely DevOps guys asked me to use <a href="https://redis.io/topics/sentinel" target="_blank" rel="noopener">Redis sentinel</a> which provides high availability, it’s a good practice, and I like the automatic failover capability. Since we always try to align the test environment to the production one, even for the local development environment, so I plan to build the Redis sentinel with docker.</p>
+          <p><img src="https://www.airbusdefenceandspacenetherlands.nl/dsstuff/uploads/2014/10/Sentinel-1-ESA.jpg" alt=""></p>
+<p>I am a big fan of TDD, and I use docker a lot to build the dependencies(APIs, Database, etc.) for the unit test in my local development environment and CI. Everything goes well until one day our lovely DevOps guys asked me to use <a href="https://redis.io/topics/sentinel" target="_blank" rel="noopener">Redis sentinel</a> which provides high availability, it’s a good practice, and I like the automatic failover capability. Since we always try to align the test environment to the production one, even for the local development environment, so I plan to build the Redis sentinel with docker.</p>
 <h1 id="Challenge"><a href="#Challenge" class="headerlink" title="Challenge"></a>Challenge</h1><p>Redis Sentinel is a typical distributed architecture, the significant difference of using sentinel is that you should ask “redis-sentinel” for “redis-master” first, then issue redis command to the “redis-master” sentinel told you.<br>Long story short, I need to orchestrate 1 master/ 1 slave/ 1 sentinel with docker properly.</p>
           <!--noindex-->
           <div class="post-button text-center">
