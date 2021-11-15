@@ -73,8 +73,6 @@
 
 
 
-  
-
 
   <link rel="alternate" href="/atom.xml" title="A JOURNEY OF A SOFTWARE CRAFTMAN" type="application/atom+xml">
 
@@ -91,7 +89,7 @@
 <meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
 <meta property="og:description" content="Occasionally I need to call HTTP API from a bare-bones environment, where we don’t have curl or wget. Nowadays, it’s so common that we run everything in the dockerized environment, and we are apt to u">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2021-11-15T12:25:22.759Z">
+<meta property="og:updated_time" content="2021-11-15T12:30:21.973Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Send HTTP requests with netcat">
 <meta name="twitter:description" content="Occasionally I need to call HTTP API from a bare-bones environment, where we don’t have curl or wget. Nowadays, it’s so common that we run everything in the dockerized environment, and we are apt to u">
@@ -326,6 +324,7 @@
 
       
         <p>Occasionally I need to call HTTP API from a bare-bones environment, where we don’t have <code>curl</code> or <code>wget</code>. Nowadays, it’s so common that we run everything in the dockerized environment, and we are apt to use a slim docker image without many utility libraries.</p>
+<a id="more"></a>
 <p>Of course, you would say installing the <code>curl</code> is the most straightforward solution here. Still, unfortunately, we don’t always have the privilege to install packages in a built container, so we need an alternative to make the HTTP request; here comes the <code>netcat</code> command, it’s usually pre-installed in Linix based system out-of-box.</p>
 <p>Before I try to use <code>netcat</code> to send the HTTP request, I need APIs to be called. I use <a href="https://github.com/namshi/mockserver" target="_blank" rel="noopener">https://github.com/namshi/mockserver</a> to create two simple APIs(one GET and one POST)</p>
 <p>Response definition of <code>mocks/foo/GET.mock</code></p>
