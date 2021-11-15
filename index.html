@@ -231,6 +231,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/11/15/curl-alternative/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xavier Zhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/11/15/curl-alternative/" itemprop="url">Send HTTP requests with netcat</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-15T17:28:18+08:00">
+                2021-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/11/15/curl-alternative/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/11/15/curl-alternative/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2021/11/15/curl-alternative/" class="leancloud_visitors" data-flag-title="Send HTTP requests with netcat">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Occasionally I need to call HTTP API from a bare-bones environment, where we don’t have <code>curl</code> or <code>wget</code>. Nowadays, it’s so common that we run everything in the dockerized environment, and we are apt to use a slim docker image without many utility libraries.</p>
+<p>Of course, you would say installing the <code>curl</code> is the most straightforward solution here. Still, unfortunately, we don’t always have the privilege to install packages in a built container, so we need an alternative to make the HTTP request; here comes the <code>netcat</code> command, it’s usually pre-installed in Linix based system out-of-box.</p>
+<p>Before I try to use <code>netcat</code> to send the HTTP request, I need APIs to be called. I use <a href="https://github.com/namshi/mockserver" target="_blank" rel="noopener">https://github.com/namshi/mockserver</a> to create two simple APIs(one GET and one POST)</p>
+<p>Response definition of <code>mocks/foo/GET.mock</code></p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json; charset=utf-8</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   "Random": "content"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Response definition of <code>mocks/foo/POST.mock</code></p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span>: text/xml; charset=utf-8</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   "Accept-Language": "en-US,en;q=0.8",</span><br><span class="line">   "Host": "headers.jsontest.com",</span><br><span class="line">   "Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",</span><br><span class="line">   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You can run <code>mockserver -p 8080 -m mocks</code> so you have two APIS available for testing.</p>
+<h2 id="use-nc-to-send-HTTP-GET-request"><a href="#use-nc-to-send-HTTP-GET-request" class="headerlink" title="use nc to send HTTP GET request"></a>use nc to send HTTP GET request</h2><figure class="highlight taggerscript"><table><tr><td class="code"><pre><span class="line">printf 'GET /foo HTTP/1.0<span class="symbol">\r</span><span class="symbol">\n</span>Host:localhost<span class="symbol">\r</span><span class="symbol">\n</span><span class="symbol">\r</span><span class="symbol">\n</span>' | nc  -v localhost 8080</span><br></pre></td></tr></table></figure>
+<p><strong>Caveat</strong>: you have to specify the <code>Host</code> as it’s mandaory according to the HTTP protocol.<br>You will see the response is printed as the stdout.</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">Connection <span class="keyword">to</span> localhost<span class="built_in"> port </span>8080 [tcp/http-alt] succeeded!</span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: application/json; <span class="attribute">charset</span>=utf-8</span><br><span class="line">Date: Mon, 15 Nov 2021 09:47:02 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   <span class="string">"Random"</span>: <span class="string">"content"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="use-nc-to-send-HTTP-POST-request"><a href="#use-nc-to-send-HTTP-POST-request" class="headerlink" title="use nc to send HTTP POST request"></a>use nc to send HTTP POST request</h2><p>POST needs more work as you have to orchestrate the body and related headers, so I ended up with a bash script.</p>
+<figure class="highlight taggerscript"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">BODY="&#123; <span class="symbol">\"</span>bar<span class="symbol">\"</span> : <span class="symbol">\"</span>Hello<span class="symbol">\"</span>, <span class="symbol">\"</span>baz<span class="symbol">\"</span> : <span class="symbol">\"</span>11111<span class="symbol">\"</span>&#125;"</span><br><span class="line"></span><br><span class="line">echo -ne "POST /foo HTTP/1.0<span class="symbol">\r</span><span class="symbol">\n</span>Host: localhost<span class="symbol">\r</span><span class="symbol">\n</span>Content-Type: application/json<span class="symbol">\r</span><span class="symbol">\n</span>Content-Length: $&#123;#BODY&#125;<span class="symbol">\r</span><span class="symbol">\n</span><span class="symbol">\r</span><span class="symbol">\n</span>$&#123;BODY&#125;" | nc -i 3 localhost 8080</span><br></pre></td></tr></table></figure>
+<p>That’s pretty much it.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/20/emacs-on-macox-catalina/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1540,151 +1694,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/15/js-coercion/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Xavier Zhou">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/default_avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/12/15/js-coercion/" itemprop="url">Is empty array in JavaScript truthy or falsy?</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-12-15T23:25:35+08:00">
-                2015-12-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2015/12/15/js-coercion/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/15/js-coercion/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2015/12/15/js-coercion/" class="leancloud_visitors" data-flag-title="Is empty array in JavaScript truthy or falsy?">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Today, one of my friends argued with me about the empty array <code>[]</code>, he think it’s falsy but in my experience I persist it should be truthy.<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/12/15/js-coercion/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1737,7 +1746,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1750,7 +1759,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -1810,7 +1819,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

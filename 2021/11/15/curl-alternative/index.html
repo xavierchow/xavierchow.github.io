@@ -68,10 +68,12 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="http,">
 
 
 
+
+  
 
 
   <link rel="alternate" href="/atom.xml" title="A JOURNEY OF A SOFTWARE CRAFTMAN" type="application/atom+xml">
@@ -81,13 +83,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
-<meta property="og:url" content="http://yoursite.com/archives/2016/08/index.html">
+<meta name="description" content="Occasionally I need to call HTTP API from a bare-bones environment, where we don’t have curl or wget. Nowadays, it’s so common that we run everything in the dockerized environment, and we are apt to u">
+<meta name="keywords" content="http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Send HTTP requests with netcat">
+<meta property="og:url" content="http://yoursite.com/2021/11/15/curl-alternative/index.html">
 <meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
+<meta property="og:description" content="Occasionally I need to call HTTP API from a bare-bones environment, where we don’t have curl or wget. Nowadays, it’s so common that we run everything in the dockerized environment, and we are apt to u">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-11-15T12:25:22.759Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
+<meta name="twitter:title" content="Send HTTP requests with netcat">
+<meta name="twitter:description" content="Occasionally I need to call HTTP API from a bare-bones environment, where we don’t have curl or wget. Nowadays, it’s so common that we run everything in the dockerized environment, and we are apt to u">
 
 
 
@@ -117,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2016/08/">
+  <link rel="canonical" href="http://yoursite.com/2021/11/15/curl-alternative/">
 
 
 
 
 
-  <title>Archive | A JOURNEY OF A SOFTWARE CRAFTMAN</title>
+  <title>Send HTTP requests with netcat | A JOURNEY OF A SOFTWARE CRAFTMAN</title>
   
 
 
@@ -142,7 +149,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -216,72 +223,181 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        Um..! 16 posts in total. Keep on posting.
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2016">2016</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/11/15/curl-alternative/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xavier Zhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2016/08/06/mq-with-microservice/" itemprop="url">
-              
-                <span itemprop="name">Using Message Queues with Microservices</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Send HTTP requests with netcat</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2016-08-06T20:41:10+08:00" content="2016-08-06">
-          08-06
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-11-15T17:28:18+08:00">
+                2021-11-15
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/11/15/curl-alternative/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/11/15/curl-alternative/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2021/11/15/curl-alternative/" class="leancloud_visitors" data-flag-title="Send HTTP requests with netcat">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <p>Occasionally I need to call HTTP API from a bare-bones environment, where we don’t have <code>curl</code> or <code>wget</code>. Nowadays, it’s so common that we run everything in the dockerized environment, and we are apt to use a slim docker image without many utility libraries.</p>
+<p>Of course, you would say installing the <code>curl</code> is the most straightforward solution here. Still, unfortunately, we don’t always have the privilege to install packages in a built container, so we need an alternative to make the HTTP request; here comes the <code>netcat</code> command, it’s usually pre-installed in Linix based system out-of-box.</p>
+<p>Before I try to use <code>netcat</code> to send the HTTP request, I need APIs to be called. I use <a href="https://github.com/namshi/mockserver" target="_blank" rel="noopener">https://github.com/namshi/mockserver</a> to create two simple APIs(one GET and one POST)</p>
+<p>Response definition of <code>mocks/foo/GET.mock</code></p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json; charset=utf-8</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   "Random": "content"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Response definition of <code>mocks/foo/POST.mock</code></p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span>: text/xml; charset=utf-8</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   "Accept-Language": "en-US,en;q=0.8",</span><br><span class="line">   "Host": "headers.jsontest.com",</span><br><span class="line">   "Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.3",</span><br><span class="line">   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You can run <code>mockserver -p 8080 -m mocks</code> so you have two APIS available for testing.</p>
+<h2 id="use-nc-to-send-HTTP-GET-request"><a href="#use-nc-to-send-HTTP-GET-request" class="headerlink" title="use nc to send HTTP GET request"></a>use nc to send HTTP GET request</h2><figure class="highlight taggerscript"><table><tr><td class="code"><pre><span class="line">printf 'GET /foo HTTP/1.0<span class="symbol">\r</span><span class="symbol">\n</span>Host:localhost<span class="symbol">\r</span><span class="symbol">\n</span><span class="symbol">\r</span><span class="symbol">\n</span>' | nc  -v localhost 8080</span><br></pre></td></tr></table></figure>
+<p><strong>Caveat</strong>: you have to specify the <code>Host</code> as it’s mandaory according to the HTTP protocol.<br>You will see the response is printed as the stdout.</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">Connection <span class="keyword">to</span> localhost<span class="built_in"> port </span>8080 [tcp/http-alt] succeeded!</span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: application/json; <span class="attribute">charset</span>=utf-8</span><br><span class="line">Date: Mon, 15 Nov 2021 09:47:02 GMT</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   <span class="string">"Random"</span>: <span class="string">"content"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="use-nc-to-send-HTTP-POST-request"><a href="#use-nc-to-send-HTTP-POST-request" class="headerlink" title="use nc to send HTTP POST request"></a>use nc to send HTTP POST request</h2><p>POST needs more work as you have to orchestrate the body and related headers, so I ended up with a bash script.</p>
+<figure class="highlight taggerscript"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">BODY="&#123; <span class="symbol">\"</span>bar<span class="symbol">\"</span> : <span class="symbol">\"</span>Hello<span class="symbol">\"</span>, <span class="symbol">\"</span>baz<span class="symbol">\"</span> : <span class="symbol">\"</span>11111<span class="symbol">\"</span>&#125;"</span><br><span class="line"></span><br><span class="line">echo -ne "POST /foo HTTP/1.0<span class="symbol">\r</span><span class="symbol">\n</span>Host: localhost<span class="symbol">\r</span><span class="symbol">\n</span>Content-Type: application/json<span class="symbol">\r</span><span class="symbol">\n</span>Content-Length: $&#123;#BODY&#125;<span class="symbol">\r</span><span class="symbol">\n</span><span class="symbol">\r</span><span class="symbol">\n</span>$&#123;BODY&#125;" | nc -i 3 localhost 8080</span><br></pre></td></tr></table></figure>
+<p>That’s pretty much it.</p>
+
+      
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/http/" rel="tag"># http</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/20/emacs-on-macox-catalina/" rel="next" title="Bring Emacs to the foreground on macOS Catalina">
+                <i class="fa fa-chevron-left"></i> Bring Emacs to the foreground on macOS Catalina
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -289,6 +405,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -309,8 +439,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -386,6 +525,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#use-nc-to-send-HTTP-GET-request"><span class="nav-number">1.</span> <span class="nav-text">use nc to send HTTP GET request</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use-nc-to-send-HTTP-POST-request"><span class="nav-number">2.</span> <span class="nav-text">use nc to send HTTP POST request</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -519,6 +674,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
@@ -536,6 +695,18 @@
       <script id="dsq-count-scr" src="https://xavierblog.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2021/11/15/curl-alternative/';
+          this.page.identifier = '2021/11/15/curl-alternative/';
+          this.page.title = 'Send HTTP requests with netcat';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://xavierblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
