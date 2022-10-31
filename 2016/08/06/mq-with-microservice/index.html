@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Nsq,Microservice,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="A JOURNEY OF A SOFTWARE CRAFTMAN" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="We build MicroservicesSo, what’s the big deal with microservices? Well, there are numerous benefits to building these little guys compared to the traditional monolithic architecture of days long gone">
+<meta name="keywords" content="Nsq,Microservice">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Using Message Queues with Microservices">
+<meta property="og:url" content="http://yoursite.com/2016/08/06/mq-with-microservice/index.html">
+<meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
+<meta property="og:description" content="We build MicroservicesSo, what’s the big deal with microservices? Well, there are numerous benefits to building these little guys compared to the traditional monolithic architecture of days long gone">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/images/microservices-nsq-rabbitmq.png">
+<meta property="og:image" content="http://yoursite.com/images/microservices-nsq-rabbitmq-1.png">
+<meta property="og:image" content="http://yoursite.com/images/microservices-nsq-rabbitmq-2.png">
+<meta property="og:image" content="http://yoursite.com/images/microservices-nsq-rabbitmq-2.png">
+<meta property="og:updated_time" content="2016-08-06T15:52:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Using Message Queues with Microservices">
+<meta name="twitter:description" content="We build MicroservicesSo, what’s the big deal with microservices? Well, there are numerous benefits to building these little guys compared to the traditional monolithic architecture of days long gone">
+<meta name="twitter:image" content="http://yoursite.com/images/microservices-nsq-rabbitmq.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/06/mq-with-microservice/">
+
+
+
+
+
+  <title>Using Message Queues with Microservices | A JOURNEY OF A SOFTWARE CRAFTMAN</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">A JOURNEY OF A SOFTWARE CRAFTMAN</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Coding and Fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/06/mq-with-microservice/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xavier Zhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A JOURNEY OF A SOFTWARE CRAFTMAN">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Using Message Queues with Microservices</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-08-06T20:41:10+08:00">
+                2016-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/08/06/mq-with-microservice/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/06/mq-with-microservice/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2016/08/06/mq-with-microservice/" class="leancloud_visitors" data-flag-title="Using Message Queues with Microservices">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/images/microservices-nsq-rabbitmq.png" alt=""></p>
+<h2 id="We-build-Microservices"><a href="#We-build-Microservices" class="headerlink" title="We build Microservices"></a>We build Microservices</h2><p>So, what’s the big deal with microservices? Well, there are numerous benefits to building these little guys compared to the <a href="https://en.wikipedia.org/wiki/Monolithic_system" target="_blank" rel="noopener">traditional monolithic architecture</a> of days long gone:</p>
+<ol>
+<li>Small codebase</li>
+<li>Reusable</li>
+<li>Loosly coupled</li>
+<li>Easy to enhance and extend</li>
+<li>Easy to deply and scale</li>
+<li>Plug-and-play format</li>
+</ol>
+<a id="more"></a>  
+<p>I won’t waste your time telling you why you should be using microservices, there are plenty of folks advocating this approach already. You can refer to <a href="http://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">MartinFowler.com</a> and <a href="https://blog.risingstack.com/why-you-should-start-using-microservices/" target="_blank" rel="noopener">these guys</a> for more information about what microservices are and the advantages they have.<br>Despite their extreme usefulness, microservices are certainly not some silve bullet for all of you backend problems. One of their biggest downfalls is the complexity of interaction between the servcies you build. </p>
+<p>We use <a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js</a> and <a href="https://loopback.io/" target="_blank" rel="noopener">loopback</a> to build REST API services, which means the we mainly rely HTTP(S) protocal, As you start to build the backend, it’s not too difficult to keep a clean and graceful structure at beginning, because you can definately differentiate the upstream and downstream services clealy and neatly. However as the requirements increase in volume and complexity and the system evolves, you may find you messed something up and the API callings are now looking like your mother’s spaghetti!</p>
+<p><img src="/images/microservices-nsq-rabbitmq-1.png" alt=""></p>
+<h2 id="Why-we-use-message-queues"><a href="#Why-we-use-message-queues" class="headerlink" title="Why we use message queues"></a>Why we use message queues</h2><p>The cross dependency means the system is tightly coupled, so no single service can go it alone without cooperation from other services. We use the message queue as a supplement for decoupling and keeping the the architecture flexible.<br>Acturally, in addition to the decoupling, we expect the following features from message queue:</p>
+<ol>
+<li>A mechanism with retry(and delay retry upon failure)</li>
+<li>Pub-sub(publish-subscriber) pattern</li>
+</ol>
+<h3 id="Candidates"><a href="#Candidates" class="headerlink" title="Candidates"></a>Candidates</h3><p>We have 2 candidates for serving as our message queue platfom: <a href="https://www.rabbitmq.com/" target="_blank" rel="noopener">RabbitMQ</a> and <a href="http://nsq.io/" target="_blank" rel="noopener">NSQ</a>, both have their own pros and cons, so let’s evaluate.</p>
+<ul>
+<li><p>Pros of RabbitMQ</p>
+<ul>
+<li>Based on the open standard protocal: <a href="https://www.amqp.org/" target="_blank" rel="noopener">AMQP</a></li>
+<li>Mature and stable</li>
+<li>Introcude <code>exchange</code> between producer and consumer and fledged with lots of patterns(Direct/Worker/Pub-Sub/Route/RPC…)</li>
+</ul>
+</li>
+<li><p>Cons of RabbitMQ</p>
+<ul>
+<li>A bit steep learning curve</li>
+<li>Not easy to implement retry with failiure.</li>
+</ul>
+</li>
+<li><p>Pros of NSQ</p>
+<ul>
+<li>Good at distributed topologies with no <a href="https://en.wikipedia.org/wiki/Single_point_of_failure" target="_blank" rel="noopener">SPOF</a>, which means high available(even if some nodes go down you can still use the messaging service)</li>
+<li>One concise message model</li>
+<li>Supoort retry with delay naturally</li>
+</ul>
+</li>
+<li><p>Cons of NSQ</p>
+<ul>
+<li>Messages are not durable by default</li>
+</ul>
+</li>
+</ul>
+<h3 id="Why-we-choose-NSQ"><a href="#Why-we-choose-NSQ" class="headerlink" title="Why we choose NSQ"></a>Why we choose NSQ</h3><p>First, the message model of NSQ is simple and direct. No middle man no broker. All you need do is just define the producer and consumer. If you need fanout or broadcast, you can add multiple channels for the topic.</p>
+<p>Second, we need retry with a delay mechanism. Though it is doable to use RabbitMQ, it’s not so that easy to manage. The main approach for this is using an additional <a href="https://www.rabbitmq.com/dlx.html" target="_blank" rel="noopener">deadletter exchange</a> to simulate the delay-attempts.<br>Here’s the <a href="http://yuserinterface.com/dev/2013/01/08/how-to-schedule-delay-messages-with-rabbitmq-using-a-dead-letter-exchange/" target="_blank" rel="noopener">gist of how it works</a>. It’s an unnecessary hassle, so we avoid tit whenever possible.</p>
+<p><img src="/images/microservices-nsq-rabbitmq-2.png" alt=""></p>
+<p>If you use NSQ, you merely need to call <code>requeue()</code> with parameter of delay, then you’re done!</p>
+<p>The last reason we choose NSQ is its core is written by <a href="http://golang.org/" target="_blank" rel="noopener">Go</a>. Aside fromn Node.js, we also use Go for some of our backend porjects, let’s keep trying and chanlleging new techonolies. :D</p>
+<p><img src="/images/microservices-nsq-rabbitmq-2.png" alt=""></p>
+<p>Something worth mentioning again, NSQ is not perfect and does have its pain points (e.g. if you want to ensure strong message durability), so you should be aware of the following shortcomings. </p>
+<ul>
+<li>No message replication and it’s mainly in memory.</li>
+<li>No publisher confirmation. If there’s a failure in the nsqd node when the message happens to arrive, you lost this message.</li>
+</ul>
+<p>There is <a href="https://github.com/mreiferson/mreiferson.github.com/blob/nsq_roadmap_1/posts/nsq_roadmap.md" target="_blank" rel="noopener">roadmap</a> of NSQ’s durability and delivery guarantee. To solve the problems above you can duplicate the message with the same topic to ensure it will be delivered at least once(but more than once in most of cases), this means you need your client to de-dupe or make the operation idempotent.</p>
+<h2 id="How-we-use-NSQ"><a href="#How-we-use-NSQ" class="headerlink" title="How we use NSQ"></a>How we use NSQ</h2><p>There’re plenty of client libraries in <a href="http://nsq.io/clients/client_libraries.html" target="_blank" rel="noopener">NSQ website</a>. We use the offical JavaScript client <a href="https://github.com/dudleycarr/nsqjs" target="_blank" rel="noopener">nsqjs</a> to build our loopback based microservice. However we are not satisfied with the <code>Writer</code> interface, because you have to known the <code>nsqd</code> address beforehand and pass it to the Writer, which is not at all practical. We may scale the nsqd cluster according the needs and the nsqd itself should be able to auto-discovered(not only for consumer but also for the producer side).</p>
+<p>That’s why we build the library <a href="https://github.com/Wiredcraft/nsq-strategies" target="_blank" rel="noopener">nsq-strategies</a>, a wrapper of official client library(nsqjs) with different strategies. Currently it supports round-robin and fanout strategies. For example, you now can transfer the lookupd addresses to the producer which means you don’t need to change the code when the nsqd cluster changes and the prodcuer would pick one of nsqd nodes in a round-robin way for sending message.<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Producer = <span class="built_in">require</span>(<span class="string">'nsq-strategies'</span>).Producer;</span><br><span class="line">  <span class="keyword">const</span> p = <span class="keyword">new</span> Producer(&#123;</span><br><span class="line">    lookupdHTTPAddresses: [<span class="string">'127.0.0.1:9011'</span>, <span class="string">'127.0.0.1:9012'</span>]</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    strategy: Producer.ROUND_ROBIN</span><br><span class="line">  &#125;);</span><br><span class="line">  p.connect(<span class="function">(<span class="params">errors</span>) =&gt;</span> &#123;</span><br><span class="line">    p.produce(<span class="string">'topic'</span>, <span class="string">'message'</span>, (err) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="Wrapping-things-up"><a href="#Wrapping-things-up" class="headerlink" title="Wrapping things up"></a>Wrapping things up</h2><p>If you are building microservies, you should consider adopting a message queue as a supplement and give it a try with NSQ (or RabbitMQ).<br>Use it then improve it, like we did. That’s the way we build apps that matters.</p>
+<p>Finally thanks to <a href="https://github.com/hopechen1028" target="_blank" rel="noopener">@hopechen1028</a> and <a href="https://github.com/jonathangoodwin" target="_blank" rel="noopener">@jonathangoodwin</a> for illustration and help to polish my words.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nsq/" rel="tag"># Nsq</a>
+          
+            <a href="/tags/Microservice/" rel="tag"># Microservice</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/02/custom-error/" rel="next" title="How to extend Javascript Error">
+                <i class="fa fa-chevron-left"></i> How to extend Javascript Error
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/15/format-json/" rel="prev" title="Format json file within vim">
+                Format json file within vim <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/default_avatar.png" alt="Xavier Zhou">
+            
+              <p class="site-author-name" itemprop="name">Xavier Zhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="http://github.com/xavierchow" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/xavierzhou" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Twitter</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#We-build-Microservices"><span class="nav-number">1.</span> <span class="nav-text">We build Microservices</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-we-use-message-queues"><span class="nav-number">2.</span> <span class="nav-text">Why we use message queues</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Candidates"><span class="nav-number">2.1.</span> <span class="nav-text">Candidates</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-we-choose-NSQ"><span class="nav-number">2.2.</span> <span class="nav-text">Why we choose NSQ</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-we-use-NSQ"><span class="nav-number">3.</span> <span class="nav-text">How we use NSQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wrapping-things-up"><span class="nav-number">4.</span> <span class="nav-text">Wrapping things up</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xavier Zhou</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://xavierblog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2016/08/06/mq-with-microservice/';
+          this.page.identifier = '2016/08/06/mq-with-microservice/';
+          this.page.title = 'Using Message Queues with Microservices';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://xavierblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("kaJhWiObIpQIA0Ataxl5w455-gzGzoHsz", "v1eNlqRjbBGHAfE9r6af0fOk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
