@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis,docker,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="A JOURNEY OF A SOFTWARE CRAFTSMAN" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="I am a big fan of TDD, and I use docker a lot to build the dependencies(APIs, Database, etc.) for the unit test in my local development environment and CI. Everything goes well until one day our love">
+<meta name="keywords" content="redis,docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis Sentinel Docker">
+<meta property="og:url" content="http://yoursite.com/2019/03/06/docker-redis-sentinel/index.html">
+<meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTSMAN">
+<meta property="og:description" content="I am a big fan of TDD, and I use docker a lot to build the dependencies(APIs, Database, etc.) for the unit test in my local development environment and CI. Everything goes well until one day our love">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://www.airbusdefenceandspacenetherlands.nl/dsstuff/uploads/2014/10/Sentinel-1-ESA.jpg">
+<meta property="og:updated_time" content="2019-03-08T16:06:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis Sentinel Docker">
+<meta name="twitter:description" content="I am a big fan of TDD, and I use docker a lot to build the dependencies(APIs, Database, etc.) for the unit test in my local development environment and CI. Everything goes well until one day our love">
+<meta name="twitter:image" content="https://www.airbusdefenceandspacenetherlands.nl/dsstuff/uploads/2014/10/Sentinel-1-ESA.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/06/docker-redis-sentinel/">
+
+
+
+
+
+  <title>Redis Sentinel Docker | A JOURNEY OF A SOFTWARE CRAFTSMAN</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">A JOURNEY OF A SOFTWARE CRAFTSMAN</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Coding and Fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/docker-redis-sentinel/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xavier Zhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A JOURNEY OF A SOFTWARE CRAFTSMAN">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Redis Sentinel Docker</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-06T00:23:08+08:00">
+                2019-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/06/docker-redis-sentinel/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/06/docker-redis-sentinel/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/06/docker-redis-sentinel/" class="leancloud_visitors" data-flag-title="Redis Sentinel Docker">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://www.airbusdefenceandspacenetherlands.nl/dsstuff/uploads/2014/10/Sentinel-1-ESA.jpg" alt=""></p>
+<p>I am a big fan of TDD, and I use docker a lot to build the dependencies(APIs, Database, etc.) for the unit test in my local development environment and CI. Everything goes well until one day our lovely DevOps guys asked me to use <a href="https://redis.io/topics/sentinel" target="_blank" rel="noopener">Redis sentinel</a> which provides high availability, it’s a good practice, and I like the automatic failover capability. Since we always try to align the test environment to the production one, even for the local development environment, so I plan to build the Redis sentinel with docker.</p>
+<h1 id="Challenge"><a href="#Challenge" class="headerlink" title="Challenge"></a>Challenge</h1><p>Redis Sentinel is a typical distributed architecture, the significant difference of using sentinel is that you should ask “redis-sentinel” for “redis-master” first, then issue redis command to the “redis-master” sentinel told you.<br>Long story short, I need to orchestrate 1 master/ 1 slave/ 1 sentinel with docker properly.</p>
+<a id="more"></a>  
+<h1 id="Understand-the-docker-network"><a href="#Understand-the-docker-network" class="headerlink" title="Understand the docker network"></a>Understand the docker network</h1><p>Before starting to build the instances, we need to choose which docker network mode we are going to use.<br>A quick going through the following links you will get an idea that we have a few options, but since<br>I am building a bunch of standalone containers, <code>bridge</code> or <code>host</code> drivers seem reasonable to me(others seem to overkilling).</p>
+<ul>
+<li><a href="https://docs.docker.com/network/" target="_blank" rel="noopener">https://docs.docker.com/network/</a></li>
+<li><a href="https://docs.docker.com/network/network-tutorial-standalone/" target="_blank" rel="noopener">https://docs.docker.com/network/network-tutorial-standalone/</a></li>
+</ul>
+<h1 id="Issue-with-bridge"><a href="#Issue-with-bridge" class="headerlink" title="Issue with bridge"></a>Issue with bridge</h1><p>Let me chose the default network driver bridge, it’s simple and straightforward, i.e.</p>
+<ul>
+<li>My Application -&gt; running on host</li>
+<li>Sentinel -&gt; docker </li>
+<li>Master -&gt; docker</li>
+<li>Slave -&gt; docker<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐ </span><br><span class="line">                                                                              </span><br><span class="line">│   <span class="selector-tag">bridge</span> <span class="selector-tag">network</span>                                                          │ </span><br><span class="line">                                                                              </span><br><span class="line">│          ┌─────────────────────────────────────────────────────┐          │ </span><br><span class="line">           │                                                     │            </span><br><span class="line">│          ▼                                                     ▼          │ </span><br><span class="line">   ┌───────────────┐           ┌───────────────┐         ┌───────────────┐    </span><br><span class="line">│  │               │           │               │         │               │  │ </span><br><span class="line">   │               │           │               │         │               │    </span><br><span class="line">│  │    <span class="selector-tag">Master</span>     │           │     <span class="selector-tag">Slave</span>     │         │   <span class="selector-tag">Sentinel</span>    │  │ </span><br><span class="line">   │  172<span class="selector-class">.19</span><span class="selector-class">.0</span><span class="selector-class">.2</span>   │◀─────────▶│  172<span class="selector-class">.19</span><span class="selector-class">.0</span><span class="selector-class">.3</span>   │◀───────▶│  172<span class="selector-class">.19</span><span class="selector-class">.0</span><span class="selector-class">.4</span>   │    </span><br><span class="line">│  │               │           │               │         │               │  │ </span><br><span class="line">   │               │           │               │         │               │    </span><br><span class="line">│  └───────────────┘           └───────────────┘         └───────────────┘  │ </span><br><span class="line">           ▲                                                     △            </span><br><span class="line">│          │                                                     │          │ </span><br><span class="line">           └──────────<span class="selector-tag">X</span>───────────────┐┌─────────────────────────┘            </span><br><span class="line">└ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┼│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘ </span><br><span class="line">                                      ││                                      </span><br><span class="line">                                      │▽  <span class="selector-tag">master</span> <span class="selector-tag">is</span> 172<span class="selector-class">.19</span><span class="selector-class">.0</span><span class="selector-class">.2</span>                </span><br><span class="line"> ┌───────────────────────────────────────────────────────────────────────────┐</span><br><span class="line"> │                                <span class="selector-tag">Application</span>                                │</span><br><span class="line"> │                                192<span class="selector-class">.169</span><span class="selector-class">.0</span><span class="selector-class">.2</span>                                │</span><br><span class="line"> │                                                                           │</span><br><span class="line"> └───────────────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Oops, you see? When the application asks sentinel process for the master, it returns the <em>internal</em> IP of master,<br>because our application is not in the bridge network, 172.19.x.x is invisible.</p>
+<h1 id="Switch-to-host-network"><a href="#Switch-to-host-network" class="headerlink" title="Switch to host network?"></a>Switch to host network?</h1><p>If I use host network, all boxes in the above diagram use the host’s network directly which means all are under 192.168.x.x and they can talk to each other without any obstacle. Unfortunately, it doesn’t look suitable to me just because I develop within OSX system; there is a prohibitive <a href="https://docs.docker.com/network/host/" target="_blank" rel="noopener">limitation</a>.</p>
+<blockquote>
+<p>The host networking driver only works on Linux hosts, and is not supported on Docker Desktop for Mac, Docker Desktop for Windows, or Docker EE for Windows Server.</p>
+</blockquote>
+<h1 id="Back-to-bridge"><a href="#Back-to-bridge" class="headerlink" title="Back to bridge"></a>Back to bridge</h1><p>I need to find a way to let those 4 boxes be able to talk to each other, yes, there is a way, i.e. <strong>port forwarding</strong>.<br>Exposing the master, slave,  and sentinel to the external network by different ports, now they are in one world!</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐ </span><br><span class="line">                                                                              </span><br><span class="line">│         <span class="selector-tag">bridge</span> <span class="selector-tag">network</span>                                                    │ </span><br><span class="line">                                                                              </span><br><span class="line">│                                                                           │ </span><br><span class="line">   ┌──────────────────┐      ┌─────────────────┐       ┌─────────────────┐    </span><br><span class="line">│  │                  │      │                 │       │                 │  │ </span><br><span class="line">   │                  │      │                 │       │                 │    </span><br><span class="line">│  │      <span class="selector-tag">Master</span>      │      │      <span class="selector-tag">Slave</span>      │       │    <span class="selector-tag">Sentinel</span>     │  │ </span><br><span class="line">   │    172<span class="selector-class">.19</span><span class="selector-class">.0</span><span class="selector-class">.2</span>    │      │   172<span class="selector-class">.19</span><span class="selector-class">.0</span><span class="selector-class">.3</span>    │       │   172<span class="selector-class">.19</span><span class="selector-class">.0</span><span class="selector-class">.4</span>    │    </span><br><span class="line">│  │                  │      │                 │       │                 │  │ </span><br><span class="line">   │                  │      │                 │       │                 │    </span><br><span class="line">│  └─────────┬────────┘      └────────┬────────┘       └────────┬────────┘  │ </span><br><span class="line"> ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─  </span><br><span class="line">             ●                        ●                         ●            </span><br><span class="line">    ┌─────────────────┐      ┌─────────────────┐        ┌─────────────────┐   </span><br><span class="line">    │192<span class="selector-class">.168</span><span class="selector-class">.0</span><span class="selector-class">.2</span><span class="selector-pseudo">:6379</span> │      │192<span class="selector-class">.168</span><span class="selector-class">.0</span><span class="selector-class">.2</span><span class="selector-pseudo">:6380</span> │        │192<span class="selector-class">.168</span><span class="selector-class">.0</span><span class="selector-class">.2</span><span class="selector-pseudo">:26379</span>│   </span><br><span class="line">    │                 │◀────▶│                 │◀──────▶│                 │   </span><br><span class="line">    └─────────────────┘      └─────────────────┘        └─────────────────┘   </span><br><span class="line">             ▲        ▲                                 ▲        △            </span><br><span class="line">             │        │                                 │        │            </span><br><span class="line">             │        └─────────────────────────────────┘        │            </span><br><span class="line">             │                                                   │            </span><br><span class="line">             │                                                   │            </span><br><span class="line">             │                         <span class="selector-tag">master</span> <span class="selector-tag">is</span> 192<span class="selector-class">.168</span><span class="selector-class">.0</span><span class="selector-class">.2</span><span class="selector-pseudo">:6379</span>│            </span><br><span class="line"> ┌───────────┴───────────────────────────────────────────────────▽───────────┐</span><br><span class="line"> │                                <span class="selector-tag">Application</span>                                │</span><br><span class="line"> │                                192<span class="selector-class">.169</span><span class="selector-class">.0</span><span class="selector-class">.2</span>                                │</span><br><span class="line"> │                                                                           │</span><br><span class="line"> └───────────────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<h1 id="Tweak-the-redis-configuration"><a href="#Tweak-the-redis-configuration" class="headerlink" title="Tweak the redis configuration"></a>Tweak the redis configuration</h1><p>The next step is that I need to set the redis configuration carefully, I can’t pass the internal IP in the config; everything should be the host’s IP.</p>
+<p>Here is the docker-compose.yaml,<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'2.2'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  redis_master:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">redis:3</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">redis_master</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'6379:6379'</span></span><br><span class="line"><span class="attr">  redis_slave:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">redis:3</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">redis_slave</span></span><br><span class="line"><span class="attr">    command:</span> <span class="string">redis-server</span> <span class="bullet">--port</span> <span class="number">6380</span> <span class="bullet">--slaveof</span> <span class="string">"$&#123;EXTERNAL_HOST&#125;"</span> <span class="number">6379</span> <span class="bullet">--slave-announce-ip</span> <span class="string">"$&#123;EXTERNAL_HOST&#125;"</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'6380:6380'</span></span><br><span class="line"><span class="attr">  sentinel:</span></span><br><span class="line"><span class="attr">    build:</span> <span class="string">./sentinel</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">redis_sentinel</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">'26379:26379'</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">SENTINEL_NAME=mysentinel</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">HOST_IP="$&#123;EXTERNAL_HOST&#125;"</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>master: nothing needs to be taken care, just expose the 6379 port.</li>
+<li>slave: 2 important options, <code>--salveof</code> follows with master’s IP, and <code>--slave-announce-ip</code> is like <code>whoami</code> announcement for slave itself, see details <a href="https://redis.io/topics/replication#configuring-replication-in-docker-and-nat" target="_blank" rel="noopener">here</a>, both should be set with the host’s IP. Here I use a variable, you will see where the variable is from later. </li>
+<li>sentinel: a bit complecated, but it will be clear as you continue reading.(<strong>Declaration</strong>: how to build the sentinel docker is heavily borrowed from <a href="https://github.com/mustafaileri/redis-cluster-with-sentinel" target="_blank" rel="noopener">https://github.com/mustafaileri/redis-cluster-with-sentinel</a>)</li>
+</ul>
+<h3 id="Sentinel-Dockefile"><a href="#Sentinel-Dockefile" class="headerlink" title="Sentinel Dockefile"></a>Sentinel Dockefile</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> redis:<span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">26379</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> sentinel.conf /etc/redis/sentinel.conf</span></span><br><span class="line"><span class="bash">RUN chown redis:redis /etc/redis/sentinel.conf</span></span><br><span class="line"><span class="bash">ENV SENTINEL_QUORUM 2</span></span><br><span class="line"><span class="bash">ENV SENTINEL_NAME mysentinel</span></span><br><span class="line"><span class="bash">ENV SENTINEL_DOWN_AFTER 30000</span></span><br><span class="line"><span class="bash">ENV SENTINEL_FAILOVER 180000</span></span><br><span class="line"><span class="bash">COPY sentinel-entrypoint.sh /usr/<span class="built_in">local</span>/bin/</span></span><br><span class="line"><span class="bash">ENTRYPOINT [<span class="string">"sentinel-entrypoint.sh"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>Nothing special except the <code>sentinel.conf</code> and sh script, no worries, they are elaborated as follows,</p>
+<h3 id="sentinel-conf"><a href="#sentinel-conf" class="headerlink" title="sentinel.conf"></a>sentinel.conf</h3><figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">port 26379</span><br><span class="line"></span><br><span class="line">dir /tmp</span><br><span class="line"></span><br><span class="line">sentinel<span class="built_in"> monitor </span>$SENTINEL_NAME $HOST_IP 6379 $SENTINEL_QUORUM</span><br><span class="line"></span><br><span class="line">sentinel down-after-milliseconds $SENTINEL_NAME $SENTINEL_DOWN_AFTER</span><br><span class="line"></span><br><span class="line">sentinel parallel-syncs $SENTINEL_NAME 1</span><br><span class="line"></span><br><span class="line">sentinel failover-timeout $SENTINEL_NAME $SENTINEL_FAILOVER</span><br></pre></td></tr></table></figure>
+<p>A few basic settings, the significant two are <code>SENTINEL_NAME</code> and <code>HOST_IP</code>, they are actually from the docker-compose.yml, scroll up and check the environment part if you want.</p>
+<h3 id="sentinel-entrypoint"><a href="#sentinel-entrypoint" class="headerlink" title="sentinel-entrypoint"></a>sentinel-entrypoint</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">"s/\$SENTINEL_QUORUM/<span class="variable">$SENTINEL_QUORUM</span>/g"</span> /etc/redis/sentinel.conf</span><br><span class="line">sed -i <span class="string">"s/\$SENTINEL_DOWN_AFTER/<span class="variable">$SENTINEL_DOWN_AFTER</span>/g"</span> /etc/redis/sentinel.conf</span><br><span class="line">sed -i <span class="string">"s/\$SENTINEL_FAILOVER/<span class="variable">$SENTINEL_FAILOVER</span>/g"</span> /etc/redis/sentinel.conf</span><br><span class="line">sed -i <span class="string">"s/\$SENTINEL_NAME/<span class="variable">$SENTINEL_NAME</span>/g"</span> /etc/redis/sentinel.conf</span><br><span class="line">sed -i <span class="string">"s/\$HOST_IP/<span class="variable">$HOST_IP</span>/g"</span> /etc/redis/sentinel.conf</span><br><span class="line"></span><br><span class="line"><span class="built_in">exec</span> docker-entrypoint.sh redis-server /etc/redis/sentinel.conf --sentinel</span><br></pre></td></tr></table></figure>
+<p>Replacing the variables in the sentinel.conf and start the sentinel, that’s it.<br>The 4 <code>SENTINEL_XXX</code> variables are from the Dockfile, the <code>HOST_IP</code> is set as <code>EXTERNAL_HOST</code> which is still from the docker-compose.yaml, the last question is, where does <code>EXTERNAL_HOST</code> come from?</p>
+<h3 id="Last-piece"><a href="#Last-piece" class="headerlink" title="Last piece"></a>Last piece</h3><p>Remember the diagram with 4 boxes in one IP, the <code>EXTERNAL_HOST</code> is the IP of the host, apparently <code>localhost</code> won’t work here. Here I craft a script to start the dockers instead of <code>docker-compose up</code>,<br>the main difference is that I feed the IP to the environment variable.<br><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">set</span> -ev</span><br><span class="line"></span><br><span class="line">IP=`ifconfig | grep -Eo <span class="string">'inet (addr:)?([0-9]*\.)&#123;3&#125;[0-9]*'</span> | grep -Eo <span class="string">'([0-9]*\.)&#123;3&#125;[0-9]*'</span> | grep -v <span class="string">'127.0.0.1'</span>`</span><br><span class="line"><span class="built_in">pushd</span> `dirname <span class="variable">$0</span>` <span class="comment"># make sure at the same folder as docker-compose.yml</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"EXTERNAL_HOST=<span class="variable">$IP</span>"</span> &gt; .env</span><br><span class="line"></span><br><span class="line"><span class="comment"># Start the services and wait for it.</span></span><br><span class="line">docker-compose up -d --build</span><br><span class="line">docker-compose ps</span><br></pre></td></tr></table></figure></p>
+<p>The line with <code>ifconfig</code> seems to be scaring but it’s only to get the IP, the key point here is that I write the IP to the <code>.env</code> where docker-compose will reload environment variables.</p>
+<h1 id="Feel-free-to-clone-and-try-it"><a href="#Feel-free-to-clone-and-try-it" class="headerlink" title="Feel free to clone and try it!"></a>Feel free to clone and try it!</h1><p><a href="https://github.com/xavierchow/docker-redis-sentinel" target="_blank" rel="noopener">https://github.com/xavierchow/docker-redis-sentinel</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/05/a_step_to_fp/" rel="next" title="从命令式编程到函数式编程">
+                <i class="fa fa-chevron-left"></i> 从命令式编程到函数式编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/25/ramda-promise/" rel="prev" title="When ramdajs meets Promise">
+                When ramdajs meets Promise <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/default_avatar.png" alt="Xavier Zhou">
+            
+              <p class="site-author-name" itemprop="name">Xavier Zhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="http://github.com/xavierchow" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/xavierzhou" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Twitter</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Challenge"><span class="nav-number">1.</span> <span class="nav-text">Challenge</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Understand-the-docker-network"><span class="nav-number">2.</span> <span class="nav-text">Understand the docker network</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Issue-with-bridge"><span class="nav-number">3.</span> <span class="nav-text">Issue with bridge</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Switch-to-host-network"><span class="nav-number">4.</span> <span class="nav-text">Switch to host network?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Back-to-bridge"><span class="nav-number">5.</span> <span class="nav-text">Back to bridge</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tweak-the-redis-configuration"><span class="nav-number">6.</span> <span class="nav-text">Tweak the redis configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel-Dockefile"><span class="nav-number">6.0.1.</span> <span class="nav-text">Sentinel Dockefile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sentinel-conf"><span class="nav-number">6.0.2.</span> <span class="nav-text">sentinel.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sentinel-entrypoint"><span class="nav-number">6.0.3.</span> <span class="nav-text">sentinel-entrypoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Last-piece"><span class="nav-number">6.0.4.</span> <span class="nav-text">Last piece</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Feel-free-to-clone-and-try-it"><span class="nav-number">7.</span> <span class="nav-text">Feel free to clone and try it!</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xavier Zhou</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://xavierblog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/03/06/docker-redis-sentinel/';
+          this.page.identifier = '2019/03/06/docker-redis-sentinel/';
+          this.page.title = 'Redis Sentinel Docker';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://xavierblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("kaJhWiObIpQIA0Ataxl5w455-gzGzoHsz", "v1eNlqRjbBGHAfE9r6af0fOk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
