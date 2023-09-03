@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="vim,chrome,">
+  <meta name="keywords" content="performance database couchbase,">
 
 
 
@@ -81,21 +81,18 @@
 
 
 
-<meta name="description" content="As a vimer, I have been using a plugin called Vimium in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump">
-<meta name="keywords" content="vim,chrome">
+<meta name="description" content="A good performance testing requires more than just executing a single script.  In part 1, I talked about the right way to identify and address the problem, now here I will talk more about what is a g">
+<meta name="keywords" content="performance database couchbase">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How to leave focus from Chrome address bar without mouse">
-<meta property="og:url" content="http://yoursite.com/2016/03/07/vimium-leave-address-bar/index.html">
+<meta property="og:title" content="Performance tuning Part 2">
+<meta property="og:url" content="http://yoursite.com/2023/08/31/Performance-tuning-part-2/index.html">
 <meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTSMAN">
-<meta property="og:description" content="As a vimer, I have been using a plugin called Vimium in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump">
+<meta property="og:description" content="A good performance testing requires more than just executing a single script.  In part 1, I talked about the right way to identify and address the problem, now here I will talk more about what is a g">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/images/chrome-plugins.png">
-<meta property="og:image" content="http://yoursite.com/images/search-engine.png">
-<meta property="og:updated_time" content="2016-03-07T15:53:46.000Z">
+<meta property="og:updated_time" content="2023-09-03T13:57:48.628Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="How to leave focus from Chrome address bar without mouse">
-<meta name="twitter:description" content="As a vimer, I have been using a plugin called Vimium in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump">
-<meta name="twitter:image" content="http://yoursite.com/images/chrome-plugins.png">
+<meta name="twitter:title" content="Performance tuning Part 2">
+<meta name="twitter:description" content="A good performance testing requires more than just executing a single script.  In part 1, I talked about the right way to identify and address the problem, now here I will talk more about what is a g">
 
 
 
@@ -125,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/03/07/vimium-leave-address-bar/">
+  <link rel="canonical" href="http://yoursite.com/2023/08/31/Performance-tuning-part-2/">
 
 
 
 
 
-  <title>How to leave focus from Chrome address bar without mouse | A JOURNEY OF A SOFTWARE CRAFTSMAN</title>
+  <title>Performance tuning Part 2 | A JOURNEY OF A SOFTWARE CRAFTSMAN</title>
   
 
 
@@ -238,7 +235,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/07/vimium-leave-address-bar/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2023/08/31/Performance-tuning-part-2/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xavier Zhou">
@@ -255,7 +252,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">How to leave focus from Chrome address bar without mouse</h1>
+          <h1 class="post-title" itemprop="name headline">Performance tuning Part 2</h1>
         
 
         <div class="post-meta">
@@ -267,8 +264,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-03-07T23:45:05+08:00">
-                2016-03-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-08-31T22:27:12+08:00">
+                2023-08-31
               </time>
             
 
@@ -286,8 +283,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/03/07/vimium-leave-address-bar/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/03/07/vimium-leave-address-bar/" itemprop="commentCount"></span>
+                <a href="/2023/08/31/Performance-tuning-part-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/08/31/Performance-tuning-part-2/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -295,7 +292,7 @@
 
           
           
-             <span id="/2016/03/07/vimium-leave-address-bar/" class="leancloud_visitors" data-flag-title="How to leave focus from Chrome address bar without mouse">
+             <span id="/2023/08/31/Performance-tuning-part-2/" class="leancloud_visitors" data-flag-title="Performance tuning Part 2">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -326,26 +323,152 @@
       
 
       
-        <p>As a vimer, I have been using a plugin called <a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb?hl=en" target="_blank" rel="noopener">Vimium</a> in chrome for a long time. It keeps me to play with the browser in vim hotkey conventions, therefore I don’t need mouse or touchpad to scroll/jump link/history back etc, however there is one thing sometimes annoys me, the <strong>address bar</strong>.<br><a id="more"></a>  </p>
-<p>Although most of the time you can use <code>o</code> or <code>O</code> to open URL or history in current tab or new tab, <code>Ctrl-L</code> to highlight the address bar and modifying the URL is not a rare case.<br>Here comes the issue, when the address bar is highlighted(i.e in input mode), unless you click the <code>enter</code> to reload the whole page the vimium is not active, neither can you expect to press <code>esc</code> to back to the page.</p>
-<p>In such situation, to get focus back to the page, you have 3 choices:</p>
-<ol>
-<li>use mouse to click the page(html body), this is the most straightforward one but I don’t want to move my fingers from keyboard, so it passed.</li>
-<li>use tab, it can move focus to the next control in browser and eventually you can focus on html body and continue the vimium key shortcuts.<br>However, if you are a guy as me has lots of plugins installed, you have to tab multiple times to get the focus on page. It’s no ideal solution.<br><img src="/images/chrome-plugins.png" alt=""></li>
-<li>This one is a bit tricky but it works. <code>Cmd-F</code>(Or <code>Ctrl-F</code> at Windows) to trigger the search box, and input any character(the simplest one is <code>blank</code>) then <code>esc</code>, it brings you back to web page as well, but this solution has two cons:<ul>
-<li>It needs 3 key-strokes, not so concise.</li>
-<li>If you are in the middle of the page(by scrolling or whatever way), then the combination above will always bring you back to the top of page. Quite annoying, isn’t it?</li>
-</ul>
+        <blockquote>
+<p>A good performance testing requires more than just executing a single script.</p>
+</blockquote>
+<p>In <a href="https://xavierchow.github.io/2023/08/29/Performance-tuning-part1/" target="_blank" rel="noopener">part 1</a>, I talked about the right way to identify and address the problem, now here I will talk more about what is a good performance testing and how to do a benchmark appropriately.</p>
+<a id="more"></a>
+<h1 id="5W1H-works"><a href="#5W1H-works" class="headerlink" title="5W1H works"></a>5W1H works</h1><ul>
+<li><p>“Why” do we run the performance test? We may have different goals, you can refer to k6 doc <a href="https://k6.io/docs/test-types/load-test-types/#different-tests-for-different-goals" target="_blank" rel="noopener">Understanding the different Types of Load Tests</a> to decide the test scope and strategy separately.</p>
 </li>
-</ol>
-<p>Thanks to the <a href="http://superuser.com/users/106061/reycharles" target="_blank" rel="noopener">@ReyCharles</a> ‘s answer <a href="http://superuser.com/questions/324266/google-chrome-mac-set-keyboard-focus-from-address-bar-back-to-page/324267#324267" target="_blank" rel="noopener">here</a>, got the Holy Grail as follows,</p>
-<ol>
-<li>In search engines setting, add a new one.</li>
-<li>Name the new engine with whatever you like, I named it as <code>leaveAddressBar</code>.</li>
-<li>A simple hot key for <code>Keyword</code>, as the illustration I used <code>u</code>.</li>
-<li>In <code>URL</code> field, input <code>javascript:</code>, this is the point which moves focus back to the page.<br><img src="/images/search-engine.png" alt=""></li>
-</ol>
-<p>Done, now feel free to fiddle the address bar without mouse!</p>
+<li><p>“What” to test? A specific backend component? A single API? or a bunch of APIs with a certain flow? What’s the parameter of the tested API? You’d better to have a clear target before you shoot the arrow.</p>
+</li>
+<li><p>“Where” to run the test script? You may have multiple test environment, different environments may have different data sizes, which will impact the test result.</p>
+</li>
+<li><p>“When?” You probably want to isolate the performance testing from the other testing scenario if multiple teams work on the same testing environment, also the performance test is better to be conducted after the functional test because a super performant but non-functional system does’nt make sense. </p>
+</li>
+<li><p>“Who?”,  in my company, sometimes the DevOps team, has the most convenience to run the test script across different environments. However, the Development team should drive the whole flow and evaluate the result with stakeholders(Product Owner, Architects, etc.) as they build the system and they know them best.</p>
+</li>
+<li><p>“How?” Again it relies on the purpose of testing; basically, one thing we need to pay attention to is controlling the variables if we want to do a benchmark.</p>
+</li>
+</ul>
+<h1 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h1><p>In my case, I need to figure out the current RPS(requests per second) of the user query API. Again, keep in mind that the RPS is not an absolute constant number; it varies upon different conditions as follows,</p>
+<table>
+<thead>
+<tr>
+<th>Factors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server Resource(CPU, Memory, etc.)</td>
+</tr>
+<tr>
+<td>Data size (Documents in the Couchbase Bucket, or records in the Table)</td>
+</tr>
+<tr>
+<td>Network (Calling from external via CDN/Gateway vs Calling from internal)</td>
+</tr>
+<tr>
+<td>API parameter/logic</td>
+</tr>
+<tr>
+<td>Traffic / Pressure streched</td>
+</tr>
+</tbody>
+</table>
+<p>I planned to fix the all other factors, besides the Traffic / Pressure and use k6 options to vary the Traffic strategy.</p>
+<h1 id="Key-Concepts-about-k6"><a href="#Key-Concepts-about-k6" class="headerlink" title="Key Concepts about k6"></a>Key Concepts about k6</h1><p>There are a few key concepts that you should understand to use k6.</p>
+<p><strong><em>VU</em></strong>:  Virtual Users are essentially parallel <code>while(true)</code> loops; generally, more virtual users mean more simulated traffic.</p>
+<p><strong><em>Open &amp; Closed model</em></strong>:  In the closed model, VU iterations start only when the last iteration finishes. In the open model, on the other hand, VUs arrive independently of iteration completion, i.e., they don’t wait for the completion of iteration.</p>
+<h1 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h1><p>In my case, as I aim to have a benchmark for our api, the <a href="https://k6.io/docs/using-k6/scenarios/executors/constant-arrival-rate/" target="_blank" rel="noopener">constant-arrival-rate</a> strategy is a better choice than VU-based strategies.<br>Listing the metrics I got from the 1st round testing.</p>
+<table>
+<thead>
+<tr>
+<th>Rate (iterations/sec)</th>
+<th>CPU (%)</th>
+<th>Latency (avg)</th>
+<th>Latency (p90)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>85%</td>
+<td>28.78s</td>
+<td>47.91s</td>
+</tr>
+<tr>
+<td>30</td>
+<td>80%</td>
+<td>9.09s</td>
+<td>19.14s</td>
+</tr>
+<tr>
+<td>20</td>
+<td>65%</td>
+<td>1.69s</td>
+<td>4.12s</td>
+</tr>
+<tr>
+<td>10</td>
+<td>40%</td>
+<td>226ms</td>
+<td>464ms</td>
+</tr>
+<tr>
+<td>5</td>
+<td>20%</td>
+<td>162ms</td>
+<td>331ms</td>
+</tr>
+</tbody>
+</table>
+<p>We can see two notable things here,</p>
+<ul>
+<li>The API is quite CPU consuming; 5 RPS introduces 20% CPU usage.</li>
+<li>Latency is not a linear increase along with the change of rate.</li>
+</ul>
+<p>I have not made any improvement yet, however, instead of a random testing configuration like 1k/2k/3k VU, now I have a better inspection spot shows the sensitivity of change, that is, 20 iterations/sec, under which we could put change to other factors up on it(i.e., API parameters) to see the difference.<br>The 2nd round testing result as below, by tuning the API query,</p>
+<table>
+<thead>
+<tr>
+<th>Rate</th>
+<th>Query(filter)</th>
+<th>CPU(%)</th>
+<th>Latency(avg)</th>
+<th>Latency(p90)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20 it/s</td>
+<td>{“or”:[{“email”:”<a href="mailto:xxx@gmail.com" target="_blank" rel="noopener">xxx@gmail.com</a>“},{“oidc.sub”:<br>“b213acd3”}]}</td>
+<td>65%</td>
+<td>1.69s</td>
+<td>4.12s</td>
+</tr>
+<tr>
+<td>20 it/s</td>
+<td>{“email”:”<a href="mailto:xxx@gmail.com" target="_blank" rel="noopener">xxx@gmail.com</a>“}’)</td>
+<td>20%</td>
+<td>62.33ms</td>
+<td>95.66ms</td>
+</tr>
+<tr>
+<td>20 it/s</td>
+<td>{“oidc.sub”:<br>“b213acd3”}</td>
+<td>15%</td>
+<td>51.22ms</td>
+<td>77.93ms</td>
+</tr>
+<tr>
+<td>20 it/s</td>
+<td>{“or”:[{“email”:”<a href="mailto:xxx@gmail.com" target="_blank" rel="noopener">xxx@gmail.com</a>“},{“email”:”<a href="mailto:yyy@gmail.com" target="_blank" rel="noopener">yyy@gmail.com</a>“}]}</td>
+<td>65%</td>
+<td>1.4s</td>
+<td>3.02s</td>
+</tr>
+</tbody>
+</table>
+<p>Highlighting some interesting findings here,</p>
+<ul>
+<li><p>single <strong>where</strong> criterion (either by email or oidc.sub ) is fast but still pretty CPU consuming.</p>
+</li>
+<li><p><strong>or clause</strong> is bad in terms of both CPU and latency.(even with two same pattern like email)</p>
+</li>
+</ul>
+<p>Next, we will deep dive into the N1QL world and use the benchmark above for root cause checking.</p>
 
       
     </div>
@@ -363,9 +486,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/vim/" rel="tag"># vim</a>
-          
-            <a href="/tags/chrome/" rel="tag"># chrome</a>
+            <a href="/tags/performance-database-couchbase/" rel="tag"># performance database couchbase</a>
           
         </div>
       
@@ -378,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/15/js-coercion/" rel="next" title="Is empty array in JavaScript truthy or falsy?">
-                <i class="fa fa-chevron-left"></i> Is empty array in JavaScript truthy or falsy?
+              <a href="/2023/08/29/Performance-tuning-part1/" rel="next" title="Performance tuning Part 1">
+                <i class="fa fa-chevron-left"></i> Performance tuning Part 1
               </a>
             
           </div>
@@ -387,10 +508,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/15/understand-co/" rel="prev" title="Why use tj/co">
-                Why use tj/co <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -452,8 +569,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -529,6 +655,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#5W1H-works"><span class="nav-number">1.</span> <span class="nav-text">5W1H works</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Variables"><span class="nav-number">2.</span> <span class="nav-text">Variables</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Key-Concepts-about-k6"><span class="nav-number">3.</span> <span class="nav-text">Key Concepts about k6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Benchmark"><span class="nav-number">4.</span> <span class="nav-text">Benchmark</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -686,9 +828,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2016/03/07/vimium-leave-address-bar/';
-          this.page.identifier = '2016/03/07/vimium-leave-address-bar/';
-          this.page.title = 'How to leave focus from Chrome address bar without mouse';
+          this.page.url = 'http://yoursite.com/2023/08/31/Performance-tuning-part-2/';
+          this.page.identifier = '2023/08/31/Performance-tuning-part-2/';
+          this.page.title = 'Performance tuning Part 2';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://xavierblog.disqus.com/embed.js';
