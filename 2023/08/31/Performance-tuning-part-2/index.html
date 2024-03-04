@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="performance database couchbase,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="A JOURNEY OF A SOFTWARE CRAFTSMAN" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="A good performance testing requires more than just executing a single script.  In part 1, I talked about the right way to identify and address the problem, now here I will talk more about what is a g">
+<meta name="keywords" content="performance database couchbase">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Performance tuning Part 2">
+<meta property="og:url" content="http://yoursite.com/2023/08/31/Performance-tuning-part-2/index.html">
+<meta property="og:site_name" content="A JOURNEY OF A SOFTWARE CRAFTSMAN">
+<meta property="og:description" content="A good performance testing requires more than just executing a single script.  In part 1, I talked about the right way to identify and address the problem, now here I will talk more about what is a g">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2023-09-03T13:57:48.628Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Performance tuning Part 2">
+<meta name="twitter:description" content="A good performance testing requires more than just executing a single script.  In part 1, I talked about the right way to identify and address the problem, now here I will talk more about what is a g">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2023/08/31/Performance-tuning-part-2/">
+
+
+
+
+
+  <title>Performance tuning Part 2 | A JOURNEY OF A SOFTWARE CRAFTSMAN</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">A JOURNEY OF A SOFTWARE CRAFTSMAN</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Coding and Fun</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2023/08/31/Performance-tuning-part-2/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xavier Zhou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/default_avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A JOURNEY OF A SOFTWARE CRAFTSMAN">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Performance tuning Part 2</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-08-31T22:27:12+08:00">
+                2023-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2023/08/31/Performance-tuning-part-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/08/31/Performance-tuning-part-2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2023/08/31/Performance-tuning-part-2/" class="leancloud_visitors" data-flag-title="Performance tuning Part 2">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>A good performance testing requires more than just executing a single script.</p>
+</blockquote>
+<p>In <a href="https://xavierchow.github.io/2023/08/29/Performance-tuning-part1/" target="_blank" rel="noopener">part 1</a>, I talked about the right way to identify and address the problem, now here I will talk more about what is a good performance testing and how to do a benchmark appropriately.</p>
+<a id="more"></a>
+<h1 id="5W1H-works"><a href="#5W1H-works" class="headerlink" title="5W1H works"></a>5W1H works</h1><ul>
+<li><p>“Why” do we run the performance test? We may have different goals, you can refer to k6 doc <a href="https://k6.io/docs/test-types/load-test-types/#different-tests-for-different-goals" target="_blank" rel="noopener">Understanding the different Types of Load Tests</a> to decide the test scope and strategy separately.</p>
+</li>
+<li><p>“What” to test? A specific backend component? A single API? or a bunch of APIs with a certain flow? What’s the parameter of the tested API? You’d better to have a clear target before you shoot the arrow.</p>
+</li>
+<li><p>“Where” to run the test script? You may have multiple test environment, different environments may have different data sizes, which will impact the test result.</p>
+</li>
+<li><p>“When?” You probably want to isolate the performance testing from the other testing scenario if multiple teams work on the same testing environment, also the performance test is better to be conducted after the functional test because a super performant but non-functional system does’nt make sense. </p>
+</li>
+<li><p>“Who?”,  in my company, sometimes the DevOps team, has the most convenience to run the test script across different environments. However, the Development team should drive the whole flow and evaluate the result with stakeholders(Product Owner, Architects, etc.) as they build the system and they know them best.</p>
+</li>
+<li><p>“How?” Again it relies on the purpose of testing; basically, one thing we need to pay attention to is controlling the variables if we want to do a benchmark.</p>
+</li>
+</ul>
+<h1 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h1><p>In my case, I need to figure out the current RPS(requests per second) of the user query API. Again, keep in mind that the RPS is not an absolute constant number; it varies upon different conditions as follows,</p>
+<table>
+<thead>
+<tr>
+<th>Factors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server Resource(CPU, Memory, etc.)</td>
+</tr>
+<tr>
+<td>Data size (Documents in the Couchbase Bucket, or records in the Table)</td>
+</tr>
+<tr>
+<td>Network (Calling from external via CDN/Gateway vs Calling from internal)</td>
+</tr>
+<tr>
+<td>API parameter/logic</td>
+</tr>
+<tr>
+<td>Traffic / Pressure streched</td>
+</tr>
+</tbody>
+</table>
+<p>I planned to fix the all other factors, besides the Traffic / Pressure and use k6 options to vary the Traffic strategy.</p>
+<h1 id="Key-Concepts-about-k6"><a href="#Key-Concepts-about-k6" class="headerlink" title="Key Concepts about k6"></a>Key Concepts about k6</h1><p>There are a few key concepts that you should understand to use k6.</p>
+<p><strong><em>VU</em></strong>:  Virtual Users are essentially parallel <code>while(true)</code> loops; generally, more virtual users mean more simulated traffic.</p>
+<p><strong><em>Open &amp; Closed model</em></strong>:  In the closed model, VU iterations start only when the last iteration finishes. In the open model, on the other hand, VUs arrive independently of iteration completion, i.e., they don’t wait for the completion of iteration.</p>
+<h1 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h1><p>In my case, as I aim to have a benchmark for our api, the <a href="https://k6.io/docs/using-k6/scenarios/executors/constant-arrival-rate/" target="_blank" rel="noopener">constant-arrival-rate</a> strategy is a better choice than VU-based strategies.<br>Listing the metrics I got from the 1st round testing.</p>
+<table>
+<thead>
+<tr>
+<th>Rate (iterations/sec)</th>
+<th>CPU (%)</th>
+<th>Latency (avg)</th>
+<th>Latency (p90)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>85%</td>
+<td>28.78s</td>
+<td>47.91s</td>
+</tr>
+<tr>
+<td>30</td>
+<td>80%</td>
+<td>9.09s</td>
+<td>19.14s</td>
+</tr>
+<tr>
+<td>20</td>
+<td>65%</td>
+<td>1.69s</td>
+<td>4.12s</td>
+</tr>
+<tr>
+<td>10</td>
+<td>40%</td>
+<td>226ms</td>
+<td>464ms</td>
+</tr>
+<tr>
+<td>5</td>
+<td>20%</td>
+<td>162ms</td>
+<td>331ms</td>
+</tr>
+</tbody>
+</table>
+<p>We can see two notable things here,</p>
+<ul>
+<li>The API is quite CPU consuming; 5 RPS introduces 20% CPU usage.</li>
+<li>Latency is not a linear increase along with the change of rate.</li>
+</ul>
+<p>I have not made any improvement yet, however, instead of a random testing configuration like 1k/2k/3k VU, now I have a better inspection spot shows the sensitivity of change, that is, 20 iterations/sec, under which we could put change to other factors up on it(i.e., API parameters) to see the difference.<br>The 2nd round testing result as below, by tuning the API query,</p>
+<table>
+<thead>
+<tr>
+<th>Rate</th>
+<th>Query(filter)</th>
+<th>CPU(%)</th>
+<th>Latency(avg)</th>
+<th>Latency(p90)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20 it/s</td>
+<td>{“or”:[{“email”:”<a href="mailto:xxx@gmail.com" target="_blank" rel="noopener">xxx@gmail.com</a>“},{“oidc.sub”:<br>“b213acd3”}]}</td>
+<td>65%</td>
+<td>1.69s</td>
+<td>4.12s</td>
+</tr>
+<tr>
+<td>20 it/s</td>
+<td>{“email”:”<a href="mailto:xxx@gmail.com" target="_blank" rel="noopener">xxx@gmail.com</a>“}’)</td>
+<td>20%</td>
+<td>62.33ms</td>
+<td>95.66ms</td>
+</tr>
+<tr>
+<td>20 it/s</td>
+<td>{“oidc.sub”:<br>“b213acd3”}</td>
+<td>15%</td>
+<td>51.22ms</td>
+<td>77.93ms</td>
+</tr>
+<tr>
+<td>20 it/s</td>
+<td>{“or”:[{“email”:”<a href="mailto:xxx@gmail.com" target="_blank" rel="noopener">xxx@gmail.com</a>“},{“email”:”<a href="mailto:yyy@gmail.com" target="_blank" rel="noopener">yyy@gmail.com</a>“}]}</td>
+<td>65%</td>
+<td>1.4s</td>
+<td>3.02s</td>
+</tr>
+</tbody>
+</table>
+<p>Highlighting some interesting findings here,</p>
+<ul>
+<li><p>single <strong>where</strong> criterion (either by email or oidc.sub ) is fast but still pretty CPU consuming.</p>
+</li>
+<li><p><strong>or clause</strong> is bad in terms of both CPU and latency.(even with two same pattern like email)</p>
+</li>
+</ul>
+<p>Next, we will deep dive into the N1QL world and use the benchmark above for root cause checking.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/performance-database-couchbase/" rel="tag"># performance database couchbase</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2023/08/29/Performance-tuning-part1/" rel="next" title="Performance tuning Part 1">
+                <i class="fa fa-chevron-left"></i> Performance tuning Part 1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/03/04/Performance-tuning-part-3/" rel="prev" title="Performance tuning part 3">
+                Performance tuning part 3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/default_avatar.png" alt="Xavier Zhou">
+            
+              <p class="site-author-name" itemprop="name">Xavier Zhou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="http://github.com/xavierchow" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/xavierzhou" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Twitter</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#5W1H-works"><span class="nav-number">1.</span> <span class="nav-text">5W1H works</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Variables"><span class="nav-number">2.</span> <span class="nav-text">Variables</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Key-Concepts-about-k6"><span class="nav-number">3.</span> <span class="nav-text">Key Concepts about k6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Benchmark"><span class="nav-number">4.</span> <span class="nav-text">Benchmark</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xavier Zhou</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://xavierblog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2023/08/31/Performance-tuning-part-2/';
+          this.page.identifier = '2023/08/31/Performance-tuning-part-2/';
+          this.page.title = 'Performance tuning Part 2';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://xavierblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("kaJhWiObIpQIA0Ataxl5w455-gzGzoHsz", "v1eNlqRjbBGHAfE9r6af0fOk");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
